@@ -1,0 +1,500 @@
+package templates
+
+import "strings"
+
+templ Header(title string) {
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<!-- Open Graph Protocol tags -->
+		<meta property="og:title" content={ title }/>
+		<meta property="og:description" content="Click to view more"/>
+		<title>{ title }</title>
+		<meta
+			property="og:image"
+			content="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+		/>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+		<script src="https://unpkg.com/htmx.org@1.8.5/dist/htmx.min.js"></script>
+		<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+		<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1b26;
+      /* Dark background */
+      color: #c0caf5;
+      /* Light text */
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #24283b;
+      /* Slightly lighter background for container */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+    }
+
+    .container li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 800px;
+      margin: 20px auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      background: #24283b;
+      /* Slightly lighter background for navbar */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      flex-direction: row;
+      /* Arrange items from left to right */
+    }
+
+    nav ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      /* Make the list items flex containers */
+    }
+
+    nav li {
+      margin-right: 20px;
+      /* Adjust this value to control the spacing between links */
+    }
+
+    nav a {
+      color: #bb9af7
+    }
+
+    nav li:last-child {
+      margin-right: 0;
+      /* Remove margin from the last item to avoid extra spacing */
+    }
+
+    p.blog-date {
+      color: #ff9e64;
+    }
+
+    h1 {
+      text-align: center;
+      color: #7aa2f7;
+      /* Blue header */
+    }
+
+    h2 {
+      color: #bb9af7;
+      /* Purple sub-headers */
+    }
+
+    h3 {
+      color: #7dcfff;
+    }
+
+    h4 {
+      color: #4fd6be;
+    }
+
+    a {
+      color: #7aa2f7;
+      /* Blue links */
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .intro {
+      display: flex;
+      align-items: center;
+      margin: 20px auto;
+    }
+
+    .profile-images {
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-images img {
+      border-radius: 50%;
+      width: 130px;
+      height: 130px;
+      margin-right: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .intro-text {
+      font-size: 1.1em;
+      line-height: 1.5em;
+    }
+
+    pre {
+      background-color: #292e42;
+      /* Darker background for code blocks */
+      padding: 15px;
+      border-radius: 8px;
+      overflow: auto;
+      position: relative;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      color: #9574e1;
+      /* Light text for code */
+      background-color: #3d3d3d;
+      border-radius: 2px;
+      padding-left: 2px;
+      padding-right: 2px;
+      padding-top: 4px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      margin: 5% auto;
+      display: block;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+
+    .modal img {
+      display: flex;
+      justify-content: center;
+      margin-top: 10%;
+      width: 100%;
+    }
+
+    .date-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -1.5em;
+      margin-bottom: 14px;
+    }
+
+    button {
+      background-color: #bb9af7;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    video {
+      max-width: 95%;
+      display: block;
+      margin: auto;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+
+    .copy-button:hover {
+      background-color: #45a049;
+    }
+
+    pre::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    pre::-webkit-scrollbar-thumb {
+      background: #3b4261;
+      border-radius: 8px;
+    }
+
+    pre::-webkit-scrollbar-thumb:hover {
+      background: #5e6687;
+    }
+
+    pre::-webkit-scrollbar-track {
+      background: #24283b;
+      border-radius: 8px;
+    }
+
+    .blog-post {
+      max-width: 100%;
+      /* Ensure blog posts don't exceed the width of the container */
+    }
+
+    .blog-post img {
+      max-height: 30em;
+    }
+
+    .blog-post figcaption {
+      font-size: smaller;
+      color: #bb9af7;
+      display: flex;
+      justify-content: center;
+    }
+
+    .postImg {
+      color: #7aa2f7;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    .post-date {
+      margin-left: auto;
+      color: #bb9af7;
+      text-decoration: none;
+    }
+
+    .post-date:hover {
+      text-decoration: none;
+    }
+
+    .description:hover {
+      text-decoration: none;
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+    }
+
+    .description {
+      margin-top: 5px;
+      font-size: smaller;
+      font-style: italic;
+      color: white;
+      text-decoration: none;
+      /* Adjust as needed for spacing */
+    }
+
+    .scrolling-text-container {
+      max-width: 400px;
+      /* adjust as needed */
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      animation: scrollText 15s linear infinite;
+    }
+
+    @keyframes scrollText {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Stop animation when text fits container */
+    .scrolling-text-container:hover .scrolling-text {
+      animation-play-state: paused;
+    }
+  </style>
+	</head>
+}
+
+templ NavBar() {
+	<nav class="navbar" align="center">
+		<ul>
+			<li><a href="/" class="navbar-brand">Home</a></li>
+			<li><a href="/blog" class="navbar-brand">Blog</a></li>
+		</ul>
+	</nav>
+}
+
+templ Landing() {
+	<body>
+		<div align="center" class="container">
+			<h1>Jorge Luis Suarez</h1>
+			<div class="profile-images">
+				<img
+					src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+					alt="Jorge Luis Suarez"
+				/>
+				<img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv"/>
+			</div>
+			<div class="intro">
+				<div align="left" class="intro-text">
+					<p>
+						I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
+						and using new technology to create cool stuff. I am currently really into working on both embedded systems as
+						well as web and cloud development. Here you can find some of my school projects, including my Senior Design
+						Project, among other things I set myself to create. Enjoy!
+					</p>
+				</div>
+			</div>
+			<h2>Personal Links</h2>
+			<ul>
+				<li><a href="/jorge" target="_blank">LinkedIn</a></li>
+				<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
+				<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
+			</ul>
+			<h2>Senior Project Links</h2>
+			<ul>
+				<li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
+				<li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
+			</ul>
+			<h2>Other Links</h2>
+			<ul>
+				<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
+			</ul>
+		</div>
+	</body>
+}
+
+templ CompBlogData(posts []Post, reverse bool) {
+	<div id="blog-data">
+		<div class="date-button">
+			if reverse ==true {
+				<button
+					id="button"
+					hx-trigger="click"
+					hx-post="/blog-data-rev"
+					hx-headers='{"reverse": "false"}'
+					hx-target="#blog-data"
+					class="toggle-date"
+				>
+					Date &uarr;
+				</button>
+			} else {
+				<button
+					id="button"
+					hx-trigger="click"
+					hx-post="/blog-data-rev"
+					hx-headers='{"reverse": "true"}'
+					hx-target="#blog-data"
+					class="toggle-date"
+				>
+					Date &darr;
+				</button>
+			}
+		</div>
+		for _, post := range posts {
+			<li>
+				<div class="blog-post-index">
+					<a href={ templ.URL("/blog/" + strings.ToLower(post.Title)) }>
+						<div class="post-meta">
+							{ strings.ReplaceAll(post.Title, "-", " ") }
+							<span class="post-date">{ post.Date }</span>
+						</div>
+					</a>
+					<div class="description">&ensp;{ post.Description }</div>
+				</div>
+			</li>
+		}
+	</div>
+}
+
+templ BlogIndex(posts []Post) {
+	<body>
+		@NavBar()
+		<h1>Blog</h1>
+		<div class="container" id="blog-container">
+			<ul>
+				@CompBlogData(posts, false)
+			</ul>
+		</div>
+	</body>
+}
+
+templ BlogPage(post Post) {
+	<body>
+		@NavBar()
+		<div class="container">
+			<p class="blog-date">{ post.Date }</p>
+			<article class="blog-post">
+				<header class="post-header"></header>
+				<div class="post-content">
+					@templ.Raw(post.Content)
+				</div>
+			</article>
+		</div>
+		<div id="myModal" class="modal" onclick="closeModalOnClick(event)">
+			<span class="close" onclick="closeModal()">&times;</span>
+			<img id="modal-img" class="modal-content" src="" alt="Full-size image"/>
+		</div>
+		<script>
+    function openModal(event, src) {
+      event.preventDefault();
+      var modal = document.getElementById("myModal");
+      var modalImg = document.getElementById("modal-img");
+      modal.style.display = "block";
+      modalImg.src = src;
+      document.addEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+      document.removeEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModalOnEscape(event) {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    }
+
+    function closeModalOnClick(event) {
+      if (event.target === document.getElementById("myModal")) {
+        closeModal();
+      }
+    }
+  </script>
+	</body>
+}
+
+templ NewestBlogPost(posts []Post) {
+	<div class="newest-blog-post" align="center">
+		<a href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
+			{ "📰 Latest Post - "+ strings.ReplaceAll(posts[len(posts)-1].Title, "-", " ") + " 📰" }
+		</a>
+		<div class="scrolling-text-container">
+			<div class="scrolling-text">
+				&ensp;{ posts[len(posts)-1].Description }
+			</div>
+		</div>
+	</div>
+}
