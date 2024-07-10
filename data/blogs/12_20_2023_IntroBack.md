@@ -32,8 +32,8 @@ The one class that I took in this part of my School was AP Computer Science. Her
 When time came to decide my next step in education, I knew I wanted to work with/on computers. 2018 & 2019 were the years I was introduced to the world of custom build PCs. Up to this point I had only used laptops, so seeing this for the first time really opened my eyes. It was at this point that I knew that for College, I wanted to build my own PC, to have a solid piece of tech for any needs, and needs I had, which I will explain. I decided to apply to some colleges for Computer Engineering. It just made more sense to me over Computer Science, which at that time just seemed like the better option. 
 
 <figure>
-  <a class="postImg" href="#" onclick="openModal(event, 'http://192.168.254.13:3000/file/pc_build.jpeg')">
-    <img src="http://192.168.254.13:3000/file/pc_build.jpeg">
+  <a class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/pc_build.jpeg')">
+    <img src="https://pjalv.com/file/pc_build.jpeg">
     </a>
     <figcaption>Rather blurry image of my PC parts, August 2019</figcaption>
 </figure>
@@ -47,7 +47,7 @@ When we eventually returned to in-person lectures, I was at the point in my curr
 
 <figure>
 <video controls>
-  <source src="http://localhost:3000/file/3300L_Final.mp4" type="video/mp4">
+  <source src="https://pjalv.com/file/3300L_Final.mp4" type="video/mp4">
 </video>
     <figcaption>Verilog Class Final Project; Fall 2022</figcaption>
 </figure>
