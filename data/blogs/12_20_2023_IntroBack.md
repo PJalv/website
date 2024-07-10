@@ -54,12 +54,25 @@ When we eventually returned to in-person lectures, I was at the point in my curr
 
 My overall feeling of the class and the subject matter was that it was interesting, and I felt like I was understanding it to a well enough degree, but I was not thinking of it as a potential career pathway.
 
-At the same time, I was also taking another Lab class, this one was called __Introduction to Microcontrollers__. In this class, I was able to apply my C programming skills to work since we used the PIC18F microcontroller. Every week I had to program the chip to adhere to different purposes. Alongside my lab partner who was in charge of building the schematics, we were quite efficient in completing these tasks. Compared to the Verilog class, I felt more comfortable, and felt more satisfaction out of seeing the final goal achieved. Maybe it could also be attributed to the faster feedback loop out of working with a Microcontroller compared to the longer process of Synthesizing and Generating of a digital circuit. 
+At the same time, I was also taking another Lab class, this one was called __Introduction to Microcontrollers__. In this class, I was able to apply my C programming skills to work since we used the PIC18F microcontroller. Every week I had to program the chip to adhere to different purposes. Alongside my lab partner who was in charge of building the schematics, we were quite efficient in completing these tasks.
+
+Compared to the Verilog class, I felt more comfortable, and felt more satisfaction out of seeing the final goal achieved. Maybe it could also be attributed to the faster feedback loop out of working with a Microcontroller compared to the longer process of Synthesizing and Generating of a digital circuit. 
 
 After taking these two classes, some things became more clear; deciding a career path for after school would primarily revolve around these two Areas:
 
- - #### Hardware Description / Simulation
- - #### Embedded Systems / Systems Level Programming
+#### Hardware Description / Simulation
+  -  This path involves designing and testing digital circuits using Verilog or other hardware description languages. You work at a very low level, managing elements like bit registers and data flow between different components or modules. The FPGA boards we used demonstrated the power of quickly iterating on circuit designs, providing a much faster feedback loop compared to waiting for manufacturing times.
+
+In the end, you create a piece of hardware with a specific purpose, such as network accessories like switches or other proprietary devices designed for niche scenarios. These devices often perform better than off-the-shelf solutions.
+
+
+#### Embedded Systems / Systems Level Programming
+- This path involves implementing pre-existing circuits, such as microcontrollers or PLC controllers, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
+
+- Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
+
+
+
 
 ### Current Interests
 Currently, I am focused on embedded systems, web development, and cloud technologies. I enjoy creating projects that integrate these fields, such as [mention a specific project or two]. These projects allow me to explore innovative solutions and stay updated with the latest technological advancements.
