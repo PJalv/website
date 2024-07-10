@@ -42,7 +42,9 @@ templ Header(title string) {
       padding-top: 5px;
       padding-bottom: 5px;
     }
-
+    .landing li{
+      list-style-type: none;
+    }
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -59,6 +61,12 @@ templ Header(title string) {
       /* Arrange items from left to right */
     }
 
+
+
+    #blog-container ul{
+    list-style-type: none;
+    padding-left: 0px;
+    }
     nav ul {
       list-style-type: none;
       padding: 0;
@@ -74,6 +82,10 @@ templ Header(title string) {
     nav a {
       color: #bb9af7
     }
+    .post-content ul{
+      list-style-type: disc;
+      }
+
 
     nav li:last-child {
       margin-right: 0;
@@ -113,10 +125,6 @@ templ Header(title string) {
       text-decoration: underline;
     }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
 
     .intro {
       display: flex;
@@ -299,7 +307,7 @@ templ Header(title string) {
 
     .description {
       margin-top: 5px;
-      font-size: smaller;
+      font-size: 0.85em;
       font-style: italic;
       color: white;
       text-decoration: none;
@@ -348,6 +356,7 @@ templ NavBar() {
 templ Landing() {
 	<body>
 		<div align="center" class="container">
+    <div class="landing">
 			<h1>Jorge Luis Suarez</h1>
 			<div class="profile-images">
 				<img
@@ -362,7 +371,7 @@ templ Landing() {
 						I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
 						and using new technology to create cool stuff. I am currently really into working on both embedded systems as
 						well as web and cloud development. Here you can find some of my school projects, including my Senior Design
-						Project, among other things I set myself to create. Enjoy!
+						Project, among other things I set myself to create.
 					</p>
 				</div>
 			</div>
@@ -381,6 +390,7 @@ templ Landing() {
 			<ul>
 				<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
 			</ul>
+      </div>
 		</div>
 	</body>
 }

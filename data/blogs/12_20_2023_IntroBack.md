@@ -3,7 +3,7 @@ Here I talk about my Early Life as well as the steps that have shaped my interes
 
 Hey, I'm Jorge!
 
-I am a senior computer engineering student at Cal Poly Pomona, passionate about learning and using new technology to create cool stuff. I am currently really into working on both embedded systems as well as web and cloud development. Here, you can find some of my school projects, including my Senior Design Project, among other things I set myself to create. Enjoy!
+Welcome to my first post! I figured it would only be fitting if it was an introductory post. I talk about how I got into tech, as well as my education journey and what I think it all leads to for me. Enjoy!
 
 ## Background
 
@@ -17,6 +17,7 @@ From there, my interest in technology grew, accompanied by consoles like PlaySta
 Once I entered middle school, I became part of the STEM programs. I would have one class every year where we worked on a plethora of hands-on projects. I felt at home, being able to collaborate with group members about decisions and task management. Through my years in middle school, I started to realize that a potential path for my future could be engineering.\
 
 This was also the start of the tinkerer in me. Getting access to tablets like the Kindle Fire and iPods/iPads introduced me to the hacking and modding communities. I proceeded to perform jailbreaks (🍍) and roots of my devices, knowing very well that it would void my warranty, but the risk was worth it. I had bragging rights around school, since I was able to add as many Diamonds as I wanted in Minecraft Pocket Edition. A vital class I took here was one where we learned to use Scratch, a block-based visual programming language. It was my introduction to the world of programming.
+
 <figure>
   <a class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/mid_school.jpeg')">
     <img src="https://pjalv.com/file/mid_school.jpeg">
@@ -41,6 +42,7 @@ When time came to decide my next step in education, I knew I wanted to work with
 ## Present and Future
 
 ### University Projects and Interests (2019 - Present)
+
 Now, as a senior at Cal Poly Pomona, I have had the opportunity to work on a variety of projects that have shaped my skills and interests. Although a large part of my College Life was hindered due to the COVID-19 pandemic, I was still able to work on both personal projects, things that I set out to do to make my life easier. That was also the time when I began taking the programming classes of my major’s curriculum. Working with C and C++, among other things. This is where I would say I solidified my knowledge of the inner workings of code and computer programs. Here is where I had my first experience with a compiled language, prior to this I only really worked on Python for simple scripts.
 
 When we eventually returned to in-person lectures, I was at the point in my curriculum where I was going to start taking Lab classes. One of these labs was __Digital Circuit Design Using Verilog__, where we learned about describing hardware using code. We did a variety of assignments working with the Nexys A7 50T development board. We learned how to represent both combinational and sequential circuits to complete the labs/projects. Below is my Final Lab presentation, a time based matching game using the board's built in peripherals.
@@ -61,20 +63,28 @@ Compared to the Verilog class, I felt more comfortable, and felt more satisfacti
 After taking these two classes, some things became more clear; deciding a career path for after school would primarily revolve around these two Areas:
 
 #### Hardware Description / Simulation
-* This path involves designing and testing digital circuits using Verilog or other hardware description languages. You work at a very low level, managing elements like bit registers and data flow between different components or modules. The FPGA boards we used demonstrated the power of quickly iterating on circuit designs, providing a much faster feedback loop compared to waiting for manufacturing times.
 
- In the end, you create a piece of hardware with a specific purpose, such as network accessories like switches or other proprietary devices designed for niche scenarios. These devices often perform better than off-the-shelf solutions.
+- This path involves designing and testing digital circuits using Verilog or other hardware description languages. You work at a very low level, managing elements like bit registers and data flow between different components or modules. The FPGA boards we used demonstrated the power of quickly iterating on circuit designs, providing a much faster feedback loop compared to waiting for manufacturing times.
+
+In the end, you create a piece of hardware with a specific purpose, such as network accessories like switches or other proprietary devices designed for niche scenarios. These devices often perform better than off-the-shelf solutions.
 
 
 #### Embedded Systems / Systems Level Programming
-* This path involves implementing pre-existing circuits, such as microcontrollers or PLC controllers, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
 
-* Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
+- This path involves implementing pre-existing circuits, such as microcontrollers or PLCs, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
 
+Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
 
+Although I believe its possible to pivot from one to the other, I personally feel more interested in the Embedded/Systems level side for a career path. 
 
 
 ### Current Interests
-Currently, I am focused on embedded systems, web development, and cloud technologies. I enjoy creating projects that integrate these fields, such as [mention a specific project or two]. These projects allow me to explore innovative solutions and stay updated with the latest technological advancements.
 
+As of writing this, I am well into my Senior Design Project: an IoT Device Control System. The goal is to create an end to end system for controlling some IoT Device.
+
+My partner Dylan and I are implementing ESP32 microcontrollers using the C programming Language. I hope to also implement other technologies and features that I personally find interesting; I want to have a mobile app that can be used to control these devices from anywhere, built using React Native. I want to use the Go programming language, namely for its concurrency abilities, and combining it with the WebSocket protocol for "real-time" communication, to allow for seamless control.
+
+Please follow the GitHub repo: https://github.com/PJalv/SDP-IoT-Device-Control for an overview of it all.
+<hr>
+If you are reading this, thank you for reading through my first blog post. I have always wanted a way to just write about anything I find interesting or others could find useful, so stick around for that and much more!
 
