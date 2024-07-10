@@ -61,15 +61,15 @@ Compared to the Verilog class, I felt more comfortable, and felt more satisfacti
 After taking these two classes, some things became more clear; deciding a career path for after school would primarily revolve around these two Areas:
 
 #### Hardware Description / Simulation
-  -  This path involves designing and testing digital circuits using Verilog or other hardware description languages. You work at a very low level, managing elements like bit registers and data flow between different components or modules. The FPGA boards we used demonstrated the power of quickly iterating on circuit designs, providing a much faster feedback loop compared to waiting for manufacturing times.
+* This path involves designing and testing digital circuits using Verilog or other hardware description languages. You work at a very low level, managing elements like bit registers and data flow between different components or modules. The FPGA boards we used demonstrated the power of quickly iterating on circuit designs, providing a much faster feedback loop compared to waiting for manufacturing times.
 
-In the end, you create a piece of hardware with a specific purpose, such as network accessories like switches or other proprietary devices designed for niche scenarios. These devices often perform better than off-the-shelf solutions.
+ In the end, you create a piece of hardware with a specific purpose, such as network accessories like switches or other proprietary devices designed for niche scenarios. These devices often perform better than off-the-shelf solutions.
 
 
 #### Embedded Systems / Systems Level Programming
-- This path involves implementing pre-existing circuits, such as microcontrollers or PLC controllers, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
+* This path involves implementing pre-existing circuits, such as microcontrollers or PLC controllers, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
 
-- Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
+* Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
 
 
 
