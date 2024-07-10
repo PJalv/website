@@ -26,6 +26,7 @@ templ Header(title string) {
       /* Dark background */
       color: #c0caf5;
       /* Light text */
+      min-width: 558px;
     }
 
     .container {
@@ -268,10 +269,10 @@ templ Header(title string) {
       /* Ensure blog posts don't exceed the width of the container */
     }
 
-    .blog-post img {
+  .blog-post img {
+      max-width: 100%;
       max-height: 30em;
-    }
-
+  }
     .blog-post figcaption {
       font-size: smaller;
       color: #bb9af7;
@@ -356,41 +357,41 @@ templ NavBar() {
 templ Landing() {
 	<body>
 		<div align="center" class="container">
-    <div class="landing">
-			<h1>Jorge Luis Suarez</h1>
-			<div class="profile-images">
-				<img
-					src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
-					alt="Jorge Luis Suarez"
-				/>
-				<img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv"/>
-			</div>
-			<div class="intro">
-				<div align="left" class="intro-text">
-					<p>
-						I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
-						and using new technology to create cool stuff. I am currently really into working on both embedded systems as
-						well as web and cloud development. Here you can find some of my school projects, including my Senior Design
-						Project, among other things I set myself to create.
-					</p>
+			<div class="landing">
+				<h1>Jorge Luis Suarez</h1>
+				<div class="profile-images">
+					<img
+						src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+						alt="Jorge Luis Suarez"
+					/>
+					<img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv"/>
 				</div>
+				<div class="intro">
+					<div align="left" class="intro-text">
+						<p>
+							I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
+							and using new technology to create cool stuff. I am currently really into working on both embedded systems as
+							well as web and cloud development. Here you can find some of my school projects, including my Senior Design
+							Project, among other things I set myself to create.
+						</p>
+					</div>
+				</div>
+				<h2>Personal Links</h2>
+				<ul>
+					<li><a href="/jorge" target="_blank">LinkedIn</a></li>
+					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
+					<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
+				</ul>
+				<h2>Senior Project Links</h2>
+				<ul>
+					<li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
+					<li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
+				</ul>
+				<h2>Other Links</h2>
+				<ul>
+					<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
+				</ul>
 			</div>
-			<h2>Personal Links</h2>
-			<ul>
-				<li><a href="/jorge" target="_blank">LinkedIn</a></li>
-				<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
-				<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
-			</ul>
-			<h2>Senior Project Links</h2>
-			<ul>
-				<li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
-				<li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
-			</ul>
-			<h2>Other Links</h2>
-			<ul>
-				<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
-			</ul>
-      </div>
 		</div>
 	</body>
 }
