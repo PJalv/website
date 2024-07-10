@@ -26,9 +26,12 @@ templ Header(title string) {
       /* Dark background */
       color: #c0caf5;
       /* Light text */
-      min-width: 558px;
     }
-
+    @media (max-width: 600px) {
+        body {
+            width: 100%;  /* Full width for screens 600px or smaller */
+        }
+    }
     .container {
       max-width: 800px;
       margin: 30px auto;
