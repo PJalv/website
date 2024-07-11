@@ -17,11 +17,15 @@ import (
 	"time"
 )
 
+type ServerInterface interface {
+	WSHandler(w http.ResponseWriter, r *http.Request)
+	CommandHandler(w http.ResponseWriter, r *http.Request)
+}
+
 type Server struct {
 	conns map[*websocket.Conn]*ConnectionInfo
 	mu    sync.Mutex
 }
-
 type ConnectionInfo struct {
 	Agent string
 }
@@ -44,10 +48,9 @@ var upService = "openai"
 
 var channelCommand = make(chan []byte)
 
-var server = NewServer()
 var addr = flag.String("addr", "pjalv.com", "http service address")
 
-func statusChecker() {
+func (s *Server) statusChecker() {
 	domainList := map[string]string{"local": localURL}
 	for {
 		for _, domain := range domainList {
@@ -74,17 +77,17 @@ func statusChecker() {
 				log.Println(resp.StatusCode)
 				if resp.StatusCode != 421 && resp.StatusCode != 501 {
 					log.Printf("Domain %s is down. Status code: %d", domains, resp.StatusCode)
-					server.mu.Lock()
+					s.mu.Lock()
 					upService = localURL
-					server.mu.Unlock()
+					s.mu.Unlock()
 				} else {
 					log.Printf("Domain %s is up. Status code: %d", domains, resp.StatusCode)
 					for key, val := range domainList {
 						if val == domain {
 							if upService != key {
-								server.mu.Lock()
+								s.mu.Lock()
 								upService = key
-								server.mu.Unlock()
+								s.mu.Unlock()
 								continue
 							}
 						}
@@ -111,7 +114,8 @@ func verifyToken(tokenString string, secretKey []byte) error {
 	// fmt.Print(token)
 	return nil
 }
-func WSHandler(w http.ResponseWriter, r *http.Request) {
+
+func (s *Server) WSHandler(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.URL.Query().Get("token")
 	if tokenString == "" {
 		fmt.Println("Token not provided")
@@ -138,37 +142,37 @@ func WSHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("New incoming connection from Client:", r.RemoteAddr)
 	fmt.Printf("URL: %v\n", r.URL)
-	server.mu.Lock()
-	server.conns[ws] = &ConnectionInfo{
+	s.mu.Lock()
+	s.conns[ws] = &ConnectionInfo{
 		Agent: agentString}
-	server.mu.Unlock()
+	s.mu.Unlock()
 	defer func() {
-		if server.conns[ws].Agent == "commander" {
-			go commandSender(channelCommand)
+		if s.conns[ws].Agent == "commander" {
+			go s.commandSender(channelCommand)
 		}
 		ws.Close()
-		delete(server.conns, ws)
+		delete(s.conns, ws)
 	}()
 	for {
 		messageType, message, err := ws.ReadMessage()
 		if err != nil {
 			log.Println(err)
-			if server.conns[ws].Agent == "commander" {
+			if s.conns[ws].Agent == "commander" {
 				log.Print("Commander WS down, restarting")
 			}
 			return
 		}
-		log.Printf("Received message from [%s]: %s", server.conns[ws].Agent, string(message))
+		log.Printf("Received message from [%s]: %s", s.conns[ws].Agent, string(message))
 
-		broadcast(messageType, message, ws)
+		s.broadcast(messageType, message, ws)
 	}
 }
-func broadcast(messageType int, b []byte, authWS *websocket.Conn) {
-	log.Printf("BROADCASTING FROM %s", server.conns[authWS].Agent)
-	if server.conns[authWS].Agent == "client" || server.conns[authWS].Agent == "commander" {
+func (s *Server) broadcast(messageType int, b []byte, authWS *websocket.Conn) {
+	log.Printf("BROADCASTING FROM %s", s.conns[authWS].Agent)
+	if s.conns[authWS].Agent == "client" || s.conns[authWS].Agent == "commander" {
 		fmt.Println("Sending to broker...")
-		for ws := range server.conns {
-			if server.conns[ws].Agent == "broker" {
+		for ws := range s.conns {
+			if s.conns[ws].Agent == "broker" {
 				go func(ws *websocket.Conn) {
 					if err := ws.WriteMessage(messageType, b); err != nil {
 						fmt.Println("Write Error: ", err)
@@ -177,9 +181,9 @@ func broadcast(messageType int, b []byte, authWS *websocket.Conn) {
 			}
 		}
 	}
-	if server.conns[authWS].Agent == "broker" {
-		for ws := range server.conns {
-			if server.conns[ws].Agent == "client" {
+	if s.conns[authWS].Agent == "broker" {
+		for ws := range s.conns {
+			if s.conns[ws].Agent == "client" {
 				go func(ws *websocket.Conn) {
 					if err := ws.WriteMessage(messageType, b); err != nil {
 						fmt.Println("Write Error: ", err)
@@ -190,15 +194,15 @@ func broadcast(messageType int, b []byte, authWS *websocket.Conn) {
 	}
 }
 
-func commandSender(ch chan []byte) {
+func (s *Server) commandSender(ch chan []byte) {
 	fmt.Println("Starting command sender")
 	key := []byte(os.Getenv("JWT_SECRET"))
 	t := jwt.New(jwt.SigningMethodHS256)
-	s, err := t.SignedString(key)
+	signedString, err := t.SignedString(key)
 	if err != nil {
 		return
 	}
-	u := url.URL{Scheme: "wss", Host: *addr, Path: "/ws", RawQuery: "token=" + s + "&agent=commander"}
+	u := url.URL{Scheme: "wss", Host: *addr, Path: "/ws", RawQuery: fmt.Sprintf("token=%s&agent=commander", signedString)}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
@@ -232,7 +236,7 @@ func commandSender(ch chan []byte) {
 	}
 }
 
-func CommandHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) CommandHandler(w http.ResponseWriter, r *http.Request) {
 	var params map[string]string
 	err := json.NewDecoder(r.Body).Decode(&params)
 	if err != nil {
@@ -244,19 +248,19 @@ func CommandHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("command key not found in json request")
 		return
 	}
-	go postCommand(command, channelCommand)
+	go s.postCommand(command, channelCommand)
 	w.Write([]byte("Processing Request!"))
 	fmt.Println("Received command:", command)
 }
 
-func postCommand(command string, ch chan []byte) {
-
+func (s *Server) postCommand(command string, ch chan []byte) {
+	log.Println("received command", command)
 	log.Println("Service:", upService)
 	var headers map[string]string
 	var url string
 	switch string(upService) {
 	case "openai":
-		headers = map[string]string{"Authorization": "Bearer " + os.Getenv("OPENAI_APIKEY"), "Content-Type": "application/json"}
+		headers = map[string]string{"Authorization": "Bearer " + os.Getenv("OPENAI_API_KEY"), "Content-Type": "application/json"}
 		url = "https://api.openai.com/v1/chat/completions"
 	default:
 		headers = map[string]string{}
@@ -268,7 +272,7 @@ func postCommand(command string, ch chan []byte) {
 			case "local":
 				return "koboldcpp/Noromaid-v0.4-Mixtral-Instruct-8x7b.q3_k_m"
 			case "openai":
-				return "gpt-4o"
+				return os.Getenv("OPENAI_MODEL")
 			default: // default is local
 				return "gpt-3.5-turbo"
 			}
@@ -276,7 +280,7 @@ func postCommand(command string, ch chan []byte) {
 		"messages": []map[string]interface{}{
 			{
 				"role":    "system",
-				"content": "You are an assistant tasked with controlling two IoT devices: a fan and an RGB LED strip. You will perform tasks related to these devices and respond with an appropriate JSON object  ALL OBJECT KEYS and STRINGS MUST HAVE DOUBLE QUOTES. If the input is not recognizable, respond with an error object: { response: 'error' }.  Fan Device Schema: Power Control: If asked to turn the fan on or off, respond with: { response: 'ok', topic: 'fan/control', payload_format: 'INT', payload: '{0 for OFF or 1 for ON}' }.  Speed Control: If asked to set the fan speed, respond with a number between 96 and 1024 for the duty cycle: { response: 'ok', topic: 'fan/control', payload_format: 'INT', payload: 'number between 96 and 1024' }.  Function Control: If asked to set the Fan to 'breeze' mode, then respond with this object : {response: 'ok', topic: 'fan/control', payload_format: 'JSON', payload: {function: 1}} LED Strip: Power Control: If asked to turn the LEDs on or off, respond with: { response: 'ok', topic: 'led/control/power', payload_format: 'INT', payload: '{0 for off, 1 for on}' }.  Color Control: If asked to change the color of the LEDs, respond with the RGB values of the color: { response: 'ok', topic: 'led/control/color', payload_format: 'JSON', payload: { red: {R value}, green: {G value}, blue: {B value} } }.  Function Control: If asked to set the strip to 'static rainbow' mode, then respond with this object : {response: 'ok', topic: 'led/control/color', payload_format: 'JSON', payload: {function: 1}} If asked to set the strip to 'Trailing rainbow' mode, then respond with this object : {response: 'ok', topic: 'led/control/color', payload_format: 'JSON', payload: {function: 2}}",
+				"content": os.Getenv("IOT_COMMAND"),
 			},
 			{"role": "user", "content": command},
 		},
@@ -302,7 +306,7 @@ func postCommand(command string, ch chan []byte) {
 	if err != nil {
 		log.Print("Error in post request. Falling back to OpenAI...\n")
 		upService = "openai"
-		go postCommand(command, ch)
+		go s.postCommand(command, ch)
 		return
 	}
 	defer resp.Body.Close()
@@ -315,7 +319,7 @@ func postCommand(command string, ch chan []byte) {
 	if resp.StatusCode != 200 {
 		log.Println("Request failed, falling back to OpenAI...")
 		upService = "openai"
-		go postCommand(command, ch)
+		go s.postCommand(command, ch)
 		return
 	}
 	var response Response

@@ -15,13 +15,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Post struct {
-	Date    time.Time
-	Title   string
-	Content string
-}
-
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
+	_ = r
 	http.Error(w, "404 page not found", http.StatusNotFound)
 }
 
@@ -32,9 +27,9 @@ func redirectToURL(w http.ResponseWriter, r *http.Request, URL string) {
 func setupServer(secure bool, router *chi.Mux) {
 	// Start the HTTPS server
 	if secure {
-		certFile := "/etc/letsencrypt/live/pjalv.com/fullchain.pem"
-		keyFile := "/etc/letsencrypt/live/pjalv.com/privkey.pem"
 		// Load the TLS certificate and key
+		certFile := os.Getenv("certFile")
+		keyFile := os.Getenv("keyFile")
 		cert, err := tls.LoadX509KeyPair(certFile, keyFile)
 		if err != nil {
 			panic(err)
@@ -76,11 +71,12 @@ func fileHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filePath)
 }
 func main() {
+	sdp := server.NewServer()
 	r := chi.NewRouter()
 	os.Setenv("TZ", "America/Los_Angeles")
 	time.LoadLocation("America/Los_Angeles")
 
-	if err := godotenv.Load("../../.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Print("Error loading .env file")
 	}
 	r.Get("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
@@ -88,8 +84,8 @@ func main() {
 		http.ServeFile(w, r, "./static/favicon.ico")
 	})
 	r.Get("/file/*", fileHandler)
-	r.Get("/ws", server.WSHandler)
-	r.Post("/commands", server.CommandHandler)
+	r.Get("/ws", sdp.WSHandler)
+	r.Post("/commands", sdp.CommandHandler)
 	r.Get("/chipotle-bot", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Request to Chipotle Bot")
 		redirectToURL(w, r, "https://github.com/PJalv/chipbot-nba-finals-2023")
@@ -119,9 +115,19 @@ func main() {
 		redirectToURL(w, r, "https://www.linkedin.com/in/dylanstlaurent")
 	})
 	r.Get("/blog", func(w http.ResponseWriter, r *http.Request) {
+		temp := make([]templates.Post, len(templates.Posts))
+		copy(temp, templates.Posts)
+		slices.Reverse(temp)
 		// templates.MDConvert()
-		templates.Header("Blog - PJalv").Render(r.Context(), w)
-		log.Println(len(templates.Posts))
+		Blog := templates.Post{
+			Title: "Blog",
+		}
+
+		templates.Header(Blog).Render(r.Context(), w)
+		log.Println(len(temp))
+		for _, data := range temp {
+			log.Println(data.Title)
+		}
 		templates.BlogIndex(templates.Posts).Render(r.Context(), w)
 	})
 	r.Post("/blog-data-rev", func(w http.ResponseWriter, r *http.Request) {
@@ -160,12 +166,19 @@ func main() {
 		if id == -99 {
 			redirectToURL(w, r, "https://pjalv.com")
 		} else {
-			templates.Header(strings.ReplaceAll(templates.Posts[id].Title, "-", " ")+" - PJalv").Render(r.Context(), w)
+			Page := templates.Posts[id]
+			Page.Title = strings.ReplaceAll(templates.Posts[id].Title, "-", " ")
+			templates.Header(Page).Render(r.Context(), w)
 			templates.BlogPage(templates.Posts[id]).Render(r.Context(), w)
 		}
 	})
 	r.Get("/*", func(w http.ResponseWriter, r *http.Request) {
-		templates.Header("Jorge Luis Suarez - PJalv").Render(r.Context(), w)
+		Landing := templates.Post{
+			Title:       "Blog",
+			Description: "",
+			Content:     "",
+		}
+		templates.Header(Landing).Render(r.Context(), w)
 		templates.NavBar().Render(r.Context(), w)
 		templates.NewestBlogPost(templates.Posts).Render(r.Context(), w)
 		templates.Landing().Render(r.Context(), w)
