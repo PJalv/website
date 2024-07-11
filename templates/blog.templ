@@ -27,11 +27,14 @@ templ Header(title string) {
       color: #c0caf5;
       /* Light text */
     }
+
     @media (max-width: 600px) {
-        body {
-            width: 100%;  /* Full width for screens 600px or smaller */
-        }
+      body {
+        width: 100%;
+        /* Full width for screens 600px or smaller */
+      }
     }
+
     .container {
       max-width: 800px;
       margin: 30px auto;
@@ -46,9 +49,11 @@ templ Header(title string) {
       padding-top: 5px;
       padding-bottom: 5px;
     }
-    .landing li{
+
+    .landing li {
       list-style-type: none;
     }
+
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -70,10 +75,11 @@ templ Header(title string) {
     }
 
 
-    #blog-container ul{
-    list-style-type: none;
-    padding-left: 0px;
+    #blog-container ul {
+      list-style-type: none;
+      padding-left: 0px;
     }
+
     nav ul {
       list-style-type: none;
       padding: 0;
@@ -89,9 +95,10 @@ templ Header(title string) {
     nav a {
       color: #bb9af7
     }
-    .post-content ul{
+
+    .post-content ul {
       list-style-type: disc;
-      }
+    }
 
 
     nav li:last-child {
@@ -275,10 +282,11 @@ templ Header(title string) {
       /* Ensure blog posts don't exceed the width of the container */
     }
 
-  .blog-post img {
+    .blog-post img {
       max-width: 100%;
       max-height: 30em;
-  }
+    }
+
     .blog-post figcaption {
       font-size: smaller;
       color: #bb9af7;
@@ -376,7 +384,8 @@ templ Landing() {
 					<div align="left" class="intro-text">
 						<p>
 							I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
-							and using new technology to create cool stuff. I am currently really into working on both embedded systems as
+							and using new technology to create cool stuff. I am currently really into working on both embedded systems
+							as
 							well as web and cloud development. Here you can find some of my school projects, including my Senior Design
 							Project, among other things I set myself to create.
 						</p>
