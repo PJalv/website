@@ -3,21 +3,20 @@ package templates
 import "strings"
 
 templ Header(title string) {
-	<head>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<!-- Open Graph Protocol tags -->
-		<meta property="og:title" content={ title }/>
-		<meta property="og:description" content="Click to view more"/>
-		<title>{ title }</title>
-		<meta
-			property="og:image"
-			content="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
-		/>
-		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-		<script src="https://unpkg.com/htmx.org@1.8.5/dist/htmx.min.js"></script>
-		<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
-		<style>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Open Graph Protocol tags -->
+  <meta property="og:title" content={ title } />
+  <meta property="og:description" content="Click to view more" />
+  <title>{ title }</title>
+  <meta property="og:image"
+    content="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <script src="https://unpkg.com/htmx.org@1.8.5/dist/htmx.min.js"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+  <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -356,133 +355,123 @@ templ Header(title string) {
       animation-play-state: paused;
     }
   </style>
-	</head>
+</head>
 }
 
 templ NavBar() {
-	<nav class="navbar" align="center">
-		<ul>
-			<li><a href="/" class="navbar-brand">Home</a></li>
-			<li><a href="/blog" class="navbar-brand">Blog</a></li>
-		</ul>
-	</nav>
+<nav class="navbar" align="center">
+  <ul>
+    <li><a href="/" class="navbar-brand">Home</a></li>
+    <li><a href="/blog" class="navbar-brand">Blog</a></li>
+  </ul>
+</nav>
 }
 
 templ Landing() {
-	<body>
-		<div align="center" class="container">
-			<div class="landing">
-				<h1>Jorge Luis Suarez</h1>
-				<div class="profile-images">
-					<img
-						src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
-						alt="Jorge Luis Suarez"
-					/>
-					<img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv"/>
-				</div>
-				<div class="intro">
-					<div align="left" class="intro-text">
-						<p>
-							I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
-							and using new technology to create cool stuff. I am currently really into working on both embedded systems
-							as
-							well as web and cloud development. Here you can find some of my school projects, including my Senior Design
-							Project, among other things I set myself to create.
-						</p>
-					</div>
-				</div>
-				<h2>Personal Links</h2>
-				<ul>
-					<li><a href="/jorge" target="_blank">LinkedIn</a></li>
-					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
-					<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
-				</ul>
-				<h2>Senior Project Links</h2>
-				<ul>
-					<li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
-					<li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
-				</ul>
-				<h2>Other Links</h2>
-				<ul>
-					<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
-				</ul>
-			</div>
-		</div>
-	</body>
+
+<body>
+  <div align="center" class="container">
+    <div class="landing">
+      <h1>Jorge Luis Suarez</h1>
+      <div class="profile-images">
+        <img
+          src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+          alt="Jorge Luis Suarez" />
+        <img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv" />
+      </div>
+      <div class="intro">
+        <div align="left" class="intro-text">
+          <p>
+            I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
+            and using new technology to create cool stuff. I am currently really into working on both embedded systems
+            as
+            well as web and cloud development. Here you can find some of my school projects, including my Senior Design
+            Project, among other things I set myself to create.
+          </p>
+        </div>
+      </div>
+      <h2>Personal Links</h2>
+      <ul>
+        <li><a href="/jorge" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
+        <li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
+      </ul>
+      <h2>Senior Project Links</h2>
+      <ul>
+        <li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
+        <li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
+      </ul>
+      <h2>Other Links</h2>
+      <ul>
+        <li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
+      </ul>
+    </div>
+  </div>
+</body>
 }
 
 templ CompBlogData(posts []Post, reverse bool) {
-	<div id="blog-data">
-		<div class="date-button">
-			if reverse ==true {
-				<button
-					id="button"
-					hx-trigger="click"
-					hx-post="/blog-data-rev"
-					hx-headers='{"reverse": "false"}'
-					hx-target="#blog-data"
-					class="toggle-date"
-				>
-					Date &uarr;
-				</button>
-			} else {
-				<button
-					id="button"
-					hx-trigger="click"
-					hx-post="/blog-data-rev"
-					hx-headers='{"reverse": "true"}'
-					hx-target="#blog-data"
-					class="toggle-date"
-				>
-					Date &darr;
-				</button>
-			}
-		</div>
-		for _, post := range posts {
-			<li>
-				<div class="blog-post-index">
-					<a href={ templ.URL("/blog/" + strings.ToLower(post.Title)) }>
-						<div class="post-meta">
-							{ strings.ReplaceAll(post.Title, "-", " ") }
-							<span class="post-date">{ post.Date }</span>
-						</div>
-					</a>
-					<div class="description">&ensp;{ post.Description }</div>
-				</div>
-			</li>
-		}
-	</div>
+<div id="blog-data">
+  <div class="date-button">
+    if reverse ==true {
+    <button id="button" hx-trigger="click" hx-post="/blog-data-rev" hx-headers='{"reverse": "false"}'
+      hx-target="#blog-data" class="toggle-date">
+      Date &uarr;
+    </button>
+    } else {
+    <button id="button" hx-trigger="click" hx-post="/blog-data-rev" hx-headers='{"reverse": "true"}'
+      hx-target="#blog-data" class="toggle-date">
+      Date &darr;
+    </button>
+    }
+  </div>
+  for _, post := range posts {
+  <li>
+    <div class="blog-post-index">
+      <a href={ templ.URL("/blog/" + strings.ToLower(post.Title)) }>
+        <div class="post-meta">
+          { strings.ReplaceAll(post.Title, "-", " ") }
+          <span class="post-date">{ post.Date }</span>
+        </div>
+      </a>
+      <div class="description">&ensp;{ post.Description }</div>
+    </div>
+  </li>
+  }
+</div>
 }
 
 templ BlogIndex(posts []Post) {
-	<body>
-		@NavBar()
-		<h1>Blog</h1>
-		<div class="container" id="blog-container">
-			<ul>
-				@CompBlogData(posts, false)
-			</ul>
-		</div>
-	</body>
+
+<body>
+  @NavBar()
+  <h1>Blog</h1>
+  <div class="container" id="blog-container">
+    <ul>
+      @CompBlogData(posts, false)
+    </ul>
+  </div>
+</body>
 }
 
 templ BlogPage(post Post) {
-	<body>
-		@NavBar()
-		<div class="container">
-			<p class="blog-date">{ post.Date }</p>
-			<article class="blog-post">
-				<header class="post-header"></header>
-				<div class="post-content">
-					@templ.Raw(post.Content)
-				</div>
-			</article>
-		</div>
-		<div id="myModal" class="modal" onclick="closeModalOnClick(event)">
-			<span class="close" onclick="closeModal()">&times;</span>
-			<img id="modal-img" class="modal-content" src="" alt="Full-size image"/>
-		</div>
-		<script>
+
+<body>
+  @NavBar()
+  <div class="container">
+    <p class="blog-date">{ post.Date }</p>
+    <article class="blog-post">
+      <header class="post-header"></header>
+      <div class="post-content">
+        @templ.Raw(post.Content)
+      </div>
+    </article>
+  </div>
+  <div id="myModal" class="modal" onclick="closeModalOnClick(event)">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-img" class="modal-content" src="" alt="Full-size image" />
+  </div>
+  <script>
     function openModal(event, src) {
       event.preventDefault();
       var modal = document.getElementById("myModal");
@@ -509,18 +498,18 @@ templ BlogPage(post Post) {
       }
     }
   </script>
-	</body>
+</body>
 }
 
 templ NewestBlogPost(posts []Post) {
-	<div class="newest-blog-post" align="center">
-		<a href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
-			{ "📰 Latest Post - "+ strings.ReplaceAll(posts[len(posts)-1].Title, "-", " ") + " 📰" }
-		</a>
-		<div class="scrolling-text-container">
-			<div class="scrolling-text">
-				&ensp;{ posts[len(posts)-1].Description }
-			</div>
-		</div>
-	</div>
+<div class="newest-blog-post" align="center">
+  <a href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
+    { "📰 Latest Post - "+ strings.ReplaceAll(posts[len(posts)-1].Title, "-", " ") + " 📰" }
+  </a>
+  <div class="scrolling-text-container">
+    <div class="scrolling-text">
+      &ensp;{ posts[len(posts)-1].Description }
+    </div>
+  </div>
+</div>
 }

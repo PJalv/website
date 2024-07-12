@@ -119,9 +119,15 @@ func main() {
 		redirectToURL(w, r, "https://www.linkedin.com/in/dylanstlaurent")
 	})
 	r.Get("/blog", func(w http.ResponseWriter, r *http.Request) {
+		temp := make([]templates.Post, len(templates.Posts))
+		copy(temp, templates.Posts)
+		slices.Reverse(temp)
 		// templates.MDConvert()
 		templates.Header("Blog - PJalv").Render(r.Context(), w)
-		log.Println(len(templates.Posts))
+		log.Println(len(temp))
+		for _, data := range temp {
+			log.Println(data.Title)
+		}
 		templates.BlogIndex(templates.Posts).Render(r.Context(), w)
 	})
 	r.Post("/blog-data-rev", func(w http.ResponseWriter, r *http.Request) {
