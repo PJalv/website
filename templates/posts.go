@@ -2,13 +2,13 @@ package templates
 
 import (
 	"fmt"
+	"github.com/russross/blackfriday/v2"
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
-
-	"github.com/russross/blackfriday/v2"
 )
 
 type Post struct {
@@ -64,13 +64,39 @@ func MDConvert() {
 	if err != nil {
 		log.Fatalf("Error walking through directory %s: %v\n", dir, err)
 	}
+	log.Println("sorting by date...")
+
+	const dateFormat = "Jan 2, 2006"
+
+	type sortablePost struct {
+		post Post
+		time time.Time
+	}
+
+	sortablePosts := make([]sortablePost, len(Posts))
+
+	for i, post := range Posts {
+		parsedDate, err := time.Parse(dateFormat, post.Date)
+		if err != nil {
+			fmt.Println("Error parsing date:", err)
+			continue
+		}
+		sortablePosts[i] = sortablePost{post, parsedDate}
+	}
+
+	sort.Slice(sortablePosts, func(i, j int) bool {
+		return sortablePosts[i].time.Before(sortablePosts[j].time)
+	})
+
+	for i, sp := range sortablePosts {
+		Posts[i] = sp.post
+	}
+
 }
 
 func convertMarkdownToHTML(inputFile string) Post {
-	// Extract filename from the full path
 	filename := filepath.Base(inputFile)
 
-	// Extract date from the filename
 	parts := strings.Split(filename, "_")
 	if len(parts) < 3 {
 		log.Printf("Invalid filename format: %s\n", filename)
@@ -79,7 +105,6 @@ func convertMarkdownToHTML(inputFile string) Post {
 		}
 	}
 	dateStr := fmt.Sprintf("%s_%s_%s", parts[0], parts[1], parts[2]) // Construct date string
-	// Parse the date from the filename
 	date, err := time.Parse("01_02_2006", dateStr)
 	if err != nil {
 		log.Printf("Error parsing date from filename: %v\n", err)

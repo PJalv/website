@@ -2,14 +2,15 @@ package templates
 
 import "strings"
 
-templ Header(title string) {
+templ Header(post Post) {
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<!-- Open Graph Protocol tags -->
-		<meta property="og:title" content={ title }/>
-		<meta property="og:description" content="Click to view more"/>
-		<title>{ title }</title>
+		<meta property="og:title" content={ post.Title }/>
+		<meta property="og:description" content={ post.Description }/>
+		<meta property="og:site_name" content="PJalv"/>
+		<title>{ post.Title }</title>
 		<meta
 			property="og:image"
 			content="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
@@ -27,11 +28,22 @@ templ Header(title string) {
       color: #c0caf5;
       /* Light text */
     }
+
     @media (max-width: 600px) {
-        body {
-            width: 100%;  /* Full width for screens 600px or smaller */
-        }
+      body {
+        width: 100%;
+        /* Full width for screens 600px or smaller */
+      }
     }
+
+  .img-border {
+    border: 2px solid black;
+    display: inline-block;
+  }
+  
+  .img-border img {
+    display: block;
+  }
     .container {
       max-width: 800px;
       margin: 30px auto;
@@ -46,10 +58,9 @@ templ Header(title string) {
       padding-top: 5px;
       padding-bottom: 5px;
     }
-    .landing li{
-      list-style-type: none;
-    }
-    .navbar {
+
+    .landing li {
+      list-style-type: none; } .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -70,10 +81,11 @@ templ Header(title string) {
     }
 
 
-    #blog-container ul{
-    list-style-type: none;
-    padding-left: 0px;
+        #blog-container ul {
+      list-style-type: none;
+      padding-left: 0px;
     }
+
     nav ul {
       list-style-type: none;
       padding: 0;
@@ -89,9 +101,10 @@ templ Header(title string) {
     nav a {
       color: #bb9af7
     }
-    .post-content ul{
+
+    .post-content ul {
       list-style-type: disc;
-      }
+    }
 
 
     nav li:last-child {
@@ -139,43 +152,34 @@ templ Header(title string) {
       margin: 20px auto;
     }
 
-    .profile-images {
-      display: flex;
-      justify-content: center;
-    }
+.profile-images {
+display:flex;
+justify-content:center;
+  }
 
-    .profile-images img {
-      border-radius: 50%;
-      width: 130px;
-      height: 130px;
-      margin-right: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+.img-border {
+  display: flex;
+  width: 134px; /* 130px + 2*2px border */
+  height: 134px; /* 130px + 2*2px border */
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.img-border img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+}
+
+
 
     .intro-text {
       font-size: 1.1em;
       line-height: 1.5em;
     }
 
-    pre {
-      background-color: #292e42;
-      /* Darker background for code blocks */
-      padding: 15px;
-      border-radius: 8px;
-      overflow: auto;
-      position: relative;
-    }
 
-    code {
-      font-family: 'Courier New', Courier, monospace;
-      color: #9574e1;
-      /* Light text for code */
-      background-color: #3d3d3d;
-      border-radius: 2px;
-      padding-left: 2px;
-      padding-right: 2px;
-      padding-top: 4px;
-    }
 
     .modal {
       display: none;
@@ -275,15 +279,17 @@ templ Header(title string) {
       /* Ensure blog posts don't exceed the width of the container */
     }
 
-  .blog-post img {
+    .blog-post img {
       max-width: 100%;
       max-height: 30em;
-  }
+    }
+
     .blog-post figcaption {
-      font-size: smaller;
+      font-size: 0.85em;
       color: #bb9af7;
       display: flex;
       justify-content: center;
+      margin-top: 10px;
     }
 
     .postImg {
@@ -328,10 +334,23 @@ templ Header(title string) {
       white-space: nowrap;
     }
 
-    .scrolling-text {
-      display: inline-block;
-      animation: scrollText 15s linear infinite;
-    }
+.scrolling-text {
+  display: inline-block;
+  animation: scrollText 13s linear infinite;
+}
+
+.scrolling-text:hover {
+  animation-play-state: running; /* Ensure it keeps running on hover */
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
 
     @keyframes scrollText {
       from {
@@ -347,7 +366,24 @@ templ Header(title string) {
     .scrolling-text-container:hover .scrolling-text {
       animation-play-state: paused;
     }
+
+    p code{
+      background: #1e1c1c;
+      border-radius: 3px;
+      color: #4fd6be;
+    }
   </style>
+		<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/tokyo-night-dark.min.css"/>
+		<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
+		<!-- and it's easy to individually load additional languages -->
+		<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/languages/javascript.min.js"></script>
+		<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    });
+  </script>
 	</head>
 }
 
@@ -366,17 +402,23 @@ templ Landing() {
 			<div class="landing">
 				<h1>Jorge Luis Suarez</h1>
 				<div class="profile-images">
-					<img
-						src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
-						alt="Jorge Luis Suarez"
-					/>
-					<img src="https://avatars.githubusercontent.com/u/134026493?v=4" alt="PJalv"/>
+					<div class="img-border">
+						<img
+							src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+							alt="Jorge Luis Suarez"
+							style="border-radius:50%;"
+						/>
+					</div>
+					<div class="img-border">
+						<img src="https://pjalv.com/file/pfp.png" alt="PJalv" style="height: 88%;"/>
+					</div>
 				</div>
 				<div class="intro">
 					<div align="left" class="intro-text">
 						<p>
 							I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
-							and using new technology to create cool stuff. I am currently really into working on both embedded systems as
+							and using new technology to create cool stuff. I am currently really into working on both embedded systems
+							as
 							well as web and cloud development. Here you can find some of my school projects, including my Senior Design
 							Project, among other things I set myself to create.
 						</p>
@@ -494,7 +536,7 @@ templ BlogPage(post Post) {
       }
     }
 
-    function closeModalOnClick(event) {
+      function closeModalOnClick(event) {
       if (event.target === document.getElementById("myModal")) {
         closeModal();
       }

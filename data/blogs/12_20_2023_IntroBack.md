@@ -70,7 +70,6 @@ In the end, you create a piece of hardware with a specific purpose, such as netw
 
 
 #### Embedded Systems / Systems Level Programming
-
 - This path involves implementing pre-existing circuits, such as microcontrollers or PLCs, for specific tasks. You work on a level that is still relatively low, but you are not necessarily dealing with the logic within the hardware you are using. For example, when working with the PIC18F, we needed to understand the function of each register to create a complete system. More complex microcontrollers might abstract this complexity with a library or API that simplifies interaction with the device's I/O.
 
 Here, the implementations you develop can be tested and refined by observing their impact on the end goal.
