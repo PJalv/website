@@ -2,6 +2,7 @@ package templates
 
 import (
 	"fmt"
+	// "github.com/alecthomas/chroma/v2"
 	"github.com/russross/blackfriday/v2"
 	"log"
 	"os"
@@ -15,6 +16,7 @@ type Post struct {
 	id          int
 	Date        string
 	Title       string
+	RawTitle    string
 	Description string
 	Content     string
 	File        string // New field to store the file path
@@ -98,13 +100,13 @@ func convertMarkdownToHTML(inputFile string) Post {
 	filename := filepath.Base(inputFile)
 
 	parts := strings.Split(filename, "_")
-	if len(parts) < 3 {
+	if len(parts) < 4 {
 		log.Printf("Invalid filename format: %s\n", filename)
 		return Post{
 			id: -99,
 		}
 	}
-	dateStr := fmt.Sprintf("%s_%s_%s", parts[0], parts[1], parts[2]) // Construct date string
+	dateStr := fmt.Sprintf("%s_%s_%s", parts[1], parts[2], parts[3]) // Construct date string
 	date, err := time.Parse("01_02_2006", dateStr)
 	if err != nil {
 		log.Printf("Error parsing date from filename: %v\n", err)
@@ -134,7 +136,7 @@ func convertMarkdownToHTML(inputFile string) Post {
 	htmlContent := blackfriday.Run(restOfFile)
 
 	// Extract title from the first <h1> tag
-	title := extractTitleFromHTML(string(htmlContent))
+	title, rawTitle := extractTitleFromHTML(string(htmlContent))
 
 	// Convert date to desired format
 	dateFormatted := date.Format("Jan 2, 2006")
@@ -142,6 +144,7 @@ func convertMarkdownToHTML(inputFile string) Post {
 	post := Post{
 		id:          len(Posts),
 		Date:        dateFormatted,
+		RawTitle:    rawTitle,
 		Title:       title,
 		Description: firstLine,
 		Content:     string(htmlContent),
@@ -154,21 +157,23 @@ func convertMarkdownToHTML(inputFile string) Post {
 	return post
 }
 
-func extractTitleFromHTML(htmlContent string) string {
+func extractTitleFromHTML(htmlContent string) (string, string) {
 	// Find the first occurrence of <h1> tag
 	start := strings.Index(htmlContent, "<h1>")
 	end := strings.Index(htmlContent, "</h1>")
 	if start == -1 || end == -1 {
 		// No <h1> tag found, return empty title
-		return ""
+		return "", ""
 	}
 
 	// Extract the title text between <h1> and </h1> tags
 	title := htmlContent[start+4 : end]
+	rawTitle := htmlContent[start+4 : end]
 	// Replace spaces with hyphens
 	title = strings.ReplaceAll(title, " ", "-")
+	title = strings.ReplaceAll(title, ":", "")
 
-	return title
+	return title, rawTitle
 }
 
 func extractTitle(filePath string) string {

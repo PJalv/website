@@ -7,377 +7,423 @@ templ Header(post Post) {
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<!-- Open Graph Protocol tags -->
-		<meta property="og:title" content={ post.Title }/>
+		<meta property="og:title" content={ post.RawTitle }/>
 		<meta property="og:description" content={ post.Description }/>
 		<meta property="og:site_name" content="PJalv"/>
-		<title>{ post.Title }</title>
-		<meta
-			property="og:image"
-			content="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
-		/>
+		<meta property="og:type" content="article"/>
+		<meta property="og:image" content="https://pjalv.com/file/headshot_embed.jpg"/>
+		<meta name="twitter:card" content="summary"/>
+		<meta name="twitter:title" content={ post.RawTitle }/>
+		<meta name="twitter:description" content={ post.Description }/>
+		<meta name="twitter:image" content="https://pjalv.com/file/headshot_embed.jpg"/>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 		<script src="https://unpkg.com/htmx.org@1.8.5/dist/htmx.min.js"></script>
 		<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+		<title>{ post.RawTitle + " | PJalv" }</title>
 		<style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #1a1b26;
-      /* Dark background */
-      color: #c0caf5;
-      /* Light text */
-    }
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	/* Dark background */
+	color: #c0caf5;
+	/* Light text */
+         background-color: #1a1b26;
+}
 
-    @media (max-width: 600px) {
-      body {
-        width: 100%;
-        /* Full width for screens 600px or smaller */
-      }
-    }
-
-  .img-border {
-    border: 2px solid black;
-    display: inline-block;
-  }
-  
-  .img-border img {
-    display: block;
-  }
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      padding: 20px;
-      background: #24283b;
-      /* Slightly lighter background for container */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      border-radius: 8px;
-    }
-
-    .container li {
-      padding-top: 5px;
-      padding-bottom: 5px;
-    }
-
-    .landing li {
-      list-style-type: none; } .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 800px;
-      margin: 20px auto;
-      padding-left: 20px;
-      padding-right: 20px;
-      background: #24283b;
-      /* Slightly lighter background for navbar */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      border-radius: 8px;
-      flex-direction: row;
-      /* Arrange items from left to right */
-    }
-
-    .landing ul {
-      padding: 0;
-    }
-
-
-        #blog-container ul {
-      list-style-type: none;
-      padding-left: 0px;
-    }
-
-    nav ul {
-      list-style-type: none;
-      padding: 0;
-      display: flex;
-      /* Make the list items flex containers */
-    }
-
-    nav li {
-      margin-right: 20px;
-      /* Adjust this value to control the spacing between links */
-    }
-
-    nav a {
-      color: #bb9af7
-    }
-
-    .post-content ul {
-      list-style-type: disc;
-    }
-
-
-    nav li:last-child {
-      margin-right: 0;
-      /* Remove margin from the last item to avoid extra spacing */
-    }
-
-    p.blog-date {
-      color: #ff9e64;
-    }
-
-    h1 {
-      text-align: center;
-      color: #7aa2f7;
-      /* Blue header */
-    }
-
-    h2 {
-      color: #bb9af7;
-      /* Purple sub-headers */
-    }
-
-    h3 {
-      color: #7dcfff;
-    }
-
-    h4 {
-      color: #4fd6be;
-    }
-
-    a {
-      color: #7aa2f7;
-      /* Blue links */
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-
-    .intro {
-      display: flex;
-      align-items: center;
-      margin: 20px auto;
-    }
-
-.profile-images {
-display:flex;
-justify-content:center;
-  }
+@media (max-width: 600px) {
+	body {
+		width: 100%;
+		/* Full width for screens 600px or smaller */
+	}
+}
 
 .img-border {
-  display: flex;
-  width: 134px; /* 130px + 2*2px border */
-  height: 134px; /* 130px + 2*2px border */
-  border-radius: 50%;
-  margin: 10px;
+	< !-- border: 2px solid black;
+	-->display: inline-block;
+}
+
+sup {
+  margin-left: 0.35em;
+  }
+
+.img-border img {
+	display: block;
+}
+
+.container {
+	max-width: 800px;
+	margin: 30px auto;
+	padding: 20px;
+	background: #24283b;
+	/* Slightly lighter background for container */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	border-radius: 8px;
+}
+
+.container li {
+	padding-top: 5px;
+	padding-bottom: 5px;
+  list-style-type: none;
+}
+
+.landing li {
+	list-style-type: none;
+}
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 800px;
+	margin: 20px auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	background: #24283b;
+	/* Slightly lighter background for navbar */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	border-radius: 8px;
+	flex-direction: row;
+	/* Arrange items from left to right */
+}
+
+.landing ul {
+	padding: 0;
+	margin-top: 5px;
+}
+
+.landing h2 {
+	margin-bottom: 10px;
+}
+
+
+#blog-container ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+
+
+nav ul {
+	list-style-type: none;
+	padding: 0;
+	display: flex;
+	/* Make the list items flex containers */
+}
+
+nav li {
+	margin-right: 20px;
+	/* Adjust this value to control the spacing between links */
+}
+
+nav a {
+	color: rgb(90, 217, 194);
+}
+
+.post-content ul {
+	list-style-type: disc;
+}
+
+
+nav li:last-child {
+	margin-right: 0;
+	/* Remove margin from the last item to avoid extra spacing */
+}
+
+p.blog-date {
+	color: #ff9e64;
+}
+
+h1 {
+	text-align: center;
+	color: #7aa2f7;
+	/* Blue header */
+}
+
+h2 {
+	color: #bb9af7;
+	/* Purple sub-headers */
+}
+
+h3 {
+	color: #7dcfff;
+}
+
+h4 {
+	color: #4fd6be;
+  margin-bottom: -7.72px;
+}
+
+.blog-post p{
+line-height: 1.35;
+
+  }
+a {
+	color: #7aa2f7;
+	/* Blue links */
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+.intro {
+	display: flex;
+	align-items: center;
+	margin: 20px auto;
+}
+
+.profile-images {
+	display: flex;
+	justify-content: center;
+}
+
+.img-border {
+	display: flex;
+	width: 12em;
+	/* 130px + 2*2px border */
+	height: 12em;
+	/* 130px + 2*2px border */
+	border-radius: 50%;
+	margin: 10px;
 }
 
 .img-border img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit:contain;
+	display: block;
+  aspect-ratio:1;
 }
 
 
-
-    .intro-text {
-      font-size: 1.1em;
-      line-height: 1.5em;
-    }
-
+.intro-text {
+	font-size: 1.1em;
+	line-height: 1.5em;
+}
 
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.9);
+}
 
-    .modal-content {
-      margin: 5% auto;
-      display: block;
-      width: 100%;
-      max-width: 900px;
-    }
+.modal-content {
+	margin: 5% auto;
+	display: block;
+	width: 100%;
+	max-width: 900px;
+}
 
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 25px;
-      color: #fff;
-      font-size: 35px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.close {
+	position: absolute;
+	top: 10px;
+	right: 25px;
+	color: #fff;
+	font-size: 35px;
+	font-weight: bold;
+	cursor: pointer;
+}
 
 
-    .modal img {
-      display: flex;
-      justify-content: center;
-      margin-top: 10%;
-      width: 100%;
-    }
+.modal img {
+	display: flex;
+	justify-content: center;
+	margin-top: 10%;
+	width: 100%;
+}
 
-    .date-button {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: -1.5em;
-      margin-bottom: 14px;
-    }
+.date-button {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: -1.5em;
+	margin-bottom: 14px;
+}
 
-    button {
-      background-color: #bb9af7;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+.date-button button {
+	background-color: #ff9e64;
+	color: black;
+}
 
-    video {
-      max-width: 95%;
-      display: block;
-      margin: auto;
-    }
+button {
+	< !-- background-color: #bb9af7;
+	-->border: none;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
 
-    .copy-button {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 0.9em;
-    }
+video {
+	max-width: 95%;
+	display: block;
+	margin: auto;
+  max-height: 32em;
+}
 
-    .copy-button:hover {
-      background-color: #45a049;
-    }
+.copy-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+	border-radius: 5px;
+	font-size: 0.9em;
+}
 
-    pre::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
+.copy-button:hover {
+	background-color: #45a049;
+}
 
-    pre::-webkit-scrollbar-thumb {
-      background: #3b4261;
-      border-radius: 8px;
-    }
+pre::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
 
-    pre::-webkit-scrollbar-thumb:hover {
-      background: #5e6687;
-    }
+pre::-webkit-scrollbar-thumb {
+	background: #3b4261;
+	border-radius: 8px;
+}
 
-    pre::-webkit-scrollbar-track {
-      background: #24283b;
-      border-radius: 8px;
-    }
+pre::-webkit-scrollbar-thumb:hover {
+	background: #5e6687;
+}
 
-    .blog-post {
-      max-width: 100%;
-      /* Ensure blog posts don't exceed the width of the container */
-    }
+pre::-webkit-scrollbar-track {
+	background: #24283b;
+	border-radius: 8px;
+}
 
-    .blog-post img {
-      max-width: 100%;
-      max-height: 30em;
-    }
+.blog-post {
+	max-width: 100%;
+	/* Ensure blog posts don't exceed the width of the container */
+}
 
-    .blog-post figcaption {
-      font-size: 0.85em;
-      color: #bb9af7;
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
+.blog-post img {
+	max-width: 100%;
+	max-height: 30em;
+}
 
-    .postImg {
-      color: #7aa2f7;
-      text-decoration: none;
-      display: flex;
-      justify-content: center;
-    }
+.blog-post iframe {
+	max-width: 100%;
+	max-height: 30em;
+}
 
-    .post-date {
-      margin-left: auto;
-      color: #bb9af7;
-      text-decoration: none;
-    }
+.landing iframe {
+	max-width: 100%;
+	max-height: 30em;
+}
 
-    .post-date:hover {
-      text-decoration: none;
-    }
+.blog-post a {
+	color: rgb(90, 217, 194);
+}
 
-    .description:hover {
-      text-decoration: none;
-    }
+.blog-post figcaption {
+	font-size: 0.85em;
+	color: #bb9af7;
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
 
-    .post-meta {
-      display: flex;
-      align-items: center;
-    }
+.postImg {
+	color: #7aa2f7;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+}
 
-    .description {
-      margin-top: 5px;
-      font-size: 0.85em;
-      font-style: italic;
-      color: white;
-      text-decoration: none;
-      /* Adjust as needed for spacing */
-    }
+.post-date {
+	margin-left: auto;
+	color: #bb9af7;
+	text-decoration: none;
+}
 
-    .scrolling-text-container {
-      max-width: 400px;
-      /* adjust as needed */
-      overflow: hidden;
-      white-space: nowrap;
-    }
+.post-date:hover {
+	text-decoration: none;
+}
+
+.description:hover {
+	text-decoration: none;
+}
+
+.post-meta {
+	display: flex;
+	align-items: center;
+}
+
+.description {
+	margin-top: 5px;
+	font-size: 0.85em;
+	font-style: italic;
+	color: white;
+	text-decoration: none;
+	/* Adjust as needed for spacing */
+}
+
+.scrolling-text-container {
+	max-width: 400px;
+	/* adjust as needed */
+	overflow: hidden;
+	white-space: nowrap;
+}
 
 .scrolling-text {
-  display: inline-block;
-  animation: scrollText 13s linear infinite;
+	display: inline-block;
+	animation: scrollText 13s linear infinite;
 }
 
 .scrolling-text:hover {
-  animation-play-state: running; /* Ensure it keeps running on hover */
+	animation-play-state: running;
+	/* Ensure it keeps running on hover */
 }
 
 @keyframes scrollText {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+	from {
+		transform: translateX(100%);
+	}
+
+	to {
+		transform: translateX(-100%);
+	}
 }
 
-    @keyframes scrollText {
-      from {
-        transform: translateX(100%);
-      }
+@keyframes scrollText {
+	from {
+		transform: translateX(100%);
+	}
 
-      to {
-        transform: translateX(-100%);
-      }
-    }
+	to {
+		transform: translateX(-100%);
+	}
+}
 
-    /* Stop animation when text fits container */
-    .scrolling-text-container:hover .scrolling-text {
-      animation-play-state: paused;
-    }
+/* Stop animation when text fits container */
+.scrolling-text-container:hover .scrolling-text {
+	animation-play-state: paused;
+}
 
-    p code{
-      background: #1e1c1c;
-      border-radius: 3px;
-      color: #4fd6be;
-    }
+p code {
+	background: #1e1c1c;
+	border-radius: 3px;
+	color: #4fd6be;
+  font-size: 1.15em;
+}
+li code {
+	background: #1e1c1c;
+	border-radius: 3px;
+	color: #4fd6be;
+  font-size: 1.15em;
+}
   </style>
-		<link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/tokyo-night-dark.min.css"/>
-		<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
-		<!-- and it's easy to individually load additional languages -->
-		<script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/languages/javascript.min.js"></script>
-		<script>
+		<script src="https://pjalv.com/file/prism.js"></script>
+		<link href="https://pjalv.com/file/prism.css" rel="stylesheet"/><script>
     document.addEventListener('DOMContentLoaded', (event) => {
       document.querySelectorAll('pre code').forEach((block) => {
         hljs.highlightElement(block);
@@ -389,11 +435,26 @@ justify-content:center;
 
 templ NavBar() {
 	<nav class="navbar" align="center">
-		<ul>
+		<ul style="justify-content: space-between; width: 100%;">
 			<li><a href="/" class="navbar-brand">Home</a></li>
 			<li><a href="/blog" class="navbar-brand">Blog</a></li>
+			<li style="margin-left: auto;"><a href="/contact" class="navbar-brand">Contact</a></li>
 		</ul>
 	</nav>
+}
+
+templ Contact() {
+	<div align="center" class="container">
+		<div class="landing">
+			<h2>Contact</h2>
+			<p>If you have any questions or would like to get in touch, feel free to reach out!</p>
+			<ul>
+				<li><a href="/jorge">LinkedIn Profile</a></li>
+				<li><a href="https://x.com/pjalv" target="_blank">X / Twitter: PJalv</a></li>
+				<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
+			</ul>
+		</div>
+	</div>
 }
 
 templ Landing() {
@@ -404,23 +465,26 @@ templ Landing() {
 				<div class="profile-images">
 					<div class="img-border">
 						<img
-							src="https://media.licdn.com/dms/image/D4E03AQFaHGzaKImG2Q/profile-displayphoto-shrink_200_200/0/1663912839285?e=2147483647&v=beta&t=8UaJlQkIIsikNMqBAr_ie_wEMlCzNI3ogrzpoOdXJek"
+							class="headshot"
+							src="https://pjalv.com/file/headshot_crop.jpg"
 							alt="Jorge Luis Suarez"
 							style="border-radius:50%;"
 						/>
 					</div>
 					<div class="img-border">
-						<img src="https://pjalv.com/file/pfp.png" alt="PJalv" style="height: 88%;"/>
+						<img src="https://pjalv.com/file/pfp.png" alt="PJalv" style="object-fit:contain;" title="My pfp is based off of the Shopify logo btw."/>
 					</div>
 				</div>
 				<div class="intro">
 					<div align="left" class="intro-text">
 						<p>
-							I am a recent graduate with a degree in computer engineering from Cal Poly Pomona, passionate about learning
-							and using new technology to create cool stuff. I am currently really into working on both embedded systems
-							as
-							well as web and cloud development. Here you can find some of my school projects, including my Senior Design
-							Project, among other things I set myself to create.
+							&nbsp;&nbsp;&nbsp;&nbsp; I'm Jorge, a Computer Engineering graduate from Cal Poly Pomona with a passion for embedded systems and hardware-software integration. My expertise centers on developing robust embedded solutions using modern platforms like ESP32 and STM32 Cortex-M devices, where I've built everything from IoT applications to real-time control systems.
+						</p>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp; My passion lies in bridging the gap between hardware and software, demonstrated through my Senior Design Project. I also enjoy taking on competitive challenges, like building an autonomous Chipotle-bot. Check out my blog where I share insights and document my journey in tech.
+						</p>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp; Currently, I'm exploring oppurtunities in various fields, includng IoT, aerospace, and automotive, while also exploring emerging technologies such as Zig for embedded development.
 						</p>
 					</div>
 				</div>
@@ -430,14 +494,16 @@ templ Landing() {
 					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
 					<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
 				</ul>
-				<h2>Senior Project Links</h2>
+				<h2>Senior Project: IoT Device Control System</h2>
 				<ul>
-					<li><a href="/iot" target="_blank">Senior Design Project - IoT Device Control System</a></li>
-					<li><a href="/iot-presentation" target="_blank">Video Presentation - Symposium Day</a></li>
+					<li>by Jorge Luis Suarez and Dylan St. Laurent</li>
 				</ul>
-				<h2>Other Links</h2>
+				<figure style="text-align: center; border-radius:3px;">
+					<iframe id="ref3" width="560" height="315" src="https://www.youtube.com/embed/jLNg5vOTuZE?si=4iD7FKRQQmM_6lCI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</figure>
+				<h2>Contact</h2>
 				<ul>
-					<li><a href="https://www.example.com/other-projects" target="_blank">Other Projects</a></li>
+					<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
 				</ul>
 			</div>
 		</div>
@@ -476,7 +542,7 @@ templ CompBlogData(posts []Post, reverse bool) {
 				<div class="blog-post-index">
 					<a href={ templ.URL("/blog/" + strings.ToLower(post.Title)) }>
 						<div class="post-meta">
-							{ strings.ReplaceAll(post.Title, "-", " ") }
+							{ post.RawTitle }
 							<span class="post-date">{ post.Date }</span>
 						</div>
 					</a>
@@ -493,7 +559,7 @@ templ BlogIndex(posts []Post) {
 		<h1>Blog</h1>
 		<div class="container" id="blog-container">
 			<ul>
-				@CompBlogData(posts, false)
+				@CompBlogData(posts, true)
 			</ul>
 		</div>
 	</body>
@@ -547,8 +613,8 @@ templ BlogPage(post Post) {
 
 templ NewestBlogPost(posts []Post) {
 	<div class="newest-blog-post" align="center">
-		<a href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
-			{ "📰 Latest Post - "+ strings.ReplaceAll(posts[len(posts)-1].Title, "-", " ") + " 📰" }
+		<a style="color:#bb9af7;" href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
+			{ "📰 Latest Post - "+ posts[len(posts)-1].RawTitle + " 📰" }
 		</a>
 		<div class="scrolling-text-container">
 			<div class="scrolling-text">
