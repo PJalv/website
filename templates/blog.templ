@@ -320,6 +320,9 @@ pre::-webkit-scrollbar-track {
 	max-height: 30em;
 }
 
+.blog-post h1 {
+  font-size: 1.85em;
+}
 .blog-post a {
 	color: rgb(90, 217, 194);
 }
@@ -478,10 +481,10 @@ templ Landing() {
 				<div class="intro">
 					<div align="left" class="intro-text">
 						<p>
-							&nbsp;&nbsp;&nbsp;&nbsp; I'm Jorge, a Computer Engineering graduate from Cal Poly Pomona with a passion for embedded systems and hardware-software integration. My expertise centers on developing robust embedded solutions using modern platforms like ESP32 and STM32 Cortex-M devices, where I've built everything from IoT applications to real-time control systems.
+							&nbsp;&nbsp;&nbsp;&nbsp; I'm Jorge, a Computer Engineering graduate from Cal Poly Pomona with a passion for embedded systems and hardware-software integration. My expertise centers on developing robust embedded solutions using modern platforms like ESP32 and STM32 devices, where I've built everything from IoT applications to real-time control systems.
 						</p>
 						<p>
-							&nbsp;&nbsp;&nbsp;&nbsp; My passion lies in bridging the gap between hardware and software, demonstrated through my Senior Design Project. I also enjoy taking on competitive challenges, like building an autonomous Chipotle-bot. Check out my blog where I share insights and document my journey in tech.
+							&nbsp;&nbsp;&nbsp;&nbsp; My passion lies in bridging the gap between hardware and software, demonstrated through my Senior Design Project (see below). I also enjoy taking on competitive challenges, like building an autonomous Chipotle-bot. Check out my <a href="/blog">blog</a>, where I share insights and document my journey in tech.
 						</p>
 						<p>
 							&nbsp;&nbsp;&nbsp;&nbsp; Currently, I'm exploring oppurtunities in various fields, includng IoT, aerospace, and automotive, while also exploring emerging technologies such as Zig for embedded development.
@@ -491,8 +494,9 @@ templ Landing() {
 				<h2>Personal Links</h2>
 				<ul>
 					<li><a href="/jorge" target="_blank">LinkedIn</a></li>
-					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
 					<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
+					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
+					<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
 				</ul>
 				<h2>Senior Project: IoT Device Control System</h2>
 				<ul>
@@ -501,10 +505,6 @@ templ Landing() {
 				<figure style="text-align: center; border-radius:3px;">
 					<iframe id="ref3" width="560" height="315" src="https://www.youtube.com/embed/jLNg5vOTuZE?si=4iD7FKRQQmM_6lCI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 				</figure>
-				<h2>Contact</h2>
-				<ul>
-					<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
-				</ul>
 			</div>
 		</div>
 	</body>
@@ -612,7 +612,7 @@ templ BlogPage(post Post) {
 }
 
 templ NewestBlogPost(posts []Post) {
-	<div class="newest-blog-post" align="center">
+	<div style="font-size: 1.2em;" class="newest-blog-post" align="center">
 		<a style="color:#bb9af7;" href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
 			{ "📰 Latest Post - "+ posts[len(posts)-1].RawTitle + " 📰" }
 		</a>
