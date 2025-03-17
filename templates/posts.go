@@ -1,4 +1,4 @@
-package templates
+package components
 
 import (
 	"fmt"
@@ -172,6 +172,7 @@ func extractTitleFromHTML(htmlContent string) (string, string) {
 	// Replace spaces with hyphens
 	title = strings.ReplaceAll(title, " ", "-")
 	title = strings.ReplaceAll(title, ":", "")
+	title = strings.ReplaceAll(title, "!", "")
 
 	return title, rawTitle
 }

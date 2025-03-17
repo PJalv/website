@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/tls"
 	"log"
 	"net/http"
 	"os"
@@ -9,7 +8,7 @@ import (
 	"strings"
 	"time"
 	"website/server"
-	"website/templates"
+	components "website/templates"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
@@ -27,25 +26,12 @@ func redirectToURL(w http.ResponseWriter, r *http.Request, URL string) {
 func setupServer(secure bool, router *chi.Mux) {
 	// Start the HTTPS server
 	if secure {
-		// Load the TLS certificate and key
-		certFile := os.Getenv("certFile")
-		keyFile := os.Getenv("keyFile")
-		cert, err := tls.LoadX509KeyPair(certFile, keyFile)
-		if err != nil {
-			panic(err)
-		}
-		tlsConfig := &tls.Config{Certificates: []tls.Certificate{cert}}
-		server := &http.Server{
-			Addr:      ":443",
-			TLSConfig: tlsConfig,
-			Handler:   router,
-		}
-		err = server.ListenAndServeTLS("", "")
+		err := http.ListenAndServe(":3000", router)
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		err := http.ListenAndServe(":3000", router)
+		err := http.ListenAndServe(":8080", router)
 		if err != nil {
 			panic(err)
 		}
@@ -94,6 +80,19 @@ func main() {
 		log.Println("Request to Jorge")
 		redirectToURL(w, r, "https://www.linkedin.com/in/jorgelsuarez")
 	})
+	r.Get("/contact", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Request to Contact")
+		Contact := components.Post{
+			Title:       "Contact",
+			Description: "Jorge Luis Suarez",
+			Content:     "",
+			RawTitle:    "Contact",
+		}
+
+		components.Header(Contact).Render(r.Context(), w)
+		components.NavBar().Render(r.Context(), w)
+		components.Contact().Render(r.Context(), w)
+	})
 	r.Get("/iot", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Request to GitHub Repo")
 		redirectToURL(w, r, "https://github.com/PJalv/SDP-IoT-Device-Control")
@@ -106,6 +105,10 @@ func main() {
 		log.Println("Req to YT VIDEO")
 		redirectToURL(w, r, "https://www.youtube.com/watch?v=W1N3hpLCcY0")
 	})
+	r.Get("/nixos", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Req to NIXOS")
+		redirectToURL(w, r, "https://pjalv.com/blog/from-arch-to-nixos-a-journey-into-declarative-system-configuration")
+	})
 	r.Get("/resume", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Req to Resume")
 		redirectToURL(w, r, "https://docs.google.com/document/d/1ynXWoHiHe3NNCNCZin4Slt91ttA6x-v9jrYs64DE5KU/edit?usp=sharing")
@@ -115,20 +118,21 @@ func main() {
 		redirectToURL(w, r, "https://www.linkedin.com/in/dylanstlaurent")
 	})
 	r.Get("/blog", func(w http.ResponseWriter, r *http.Request) {
-		temp := make([]templates.Post, len(templates.Posts))
-		copy(temp, templates.Posts)
+		temp := make([]components.Post, len(components.Posts))
+		copy(temp, components.Posts)
 		slices.Reverse(temp)
-		// templates.MDConvert()
-		Blog := templates.Post{
-			Title: "Blog",
+		Blog := components.Post{
+			Title:       "Blog",
+			Description: "Jorge Luis Suarez",
+			Content:     "",
+			RawTitle:    "Blog",
 		}
-
-		templates.Header(Blog).Render(r.Context(), w)
+		components.Header(Blog).Render(r.Context(), w)
 		log.Println(len(temp))
 		for _, data := range temp {
 			log.Println(data.Title)
 		}
-		templates.BlogIndex(templates.Posts).Render(r.Context(), w)
+		components.BlogIndex(temp).Render(r.Context(), w)
 	})
 	r.Post("/blog-data-rev", func(w http.ResponseWriter, r *http.Request) {
 		var rev bool
@@ -138,27 +142,40 @@ func main() {
 		} else {
 			rev = false
 		}
-		temp := make([]templates.Post, len(templates.Posts))
-		copy(temp, templates.Posts)
+		temp := make([]components.Post, len(components.Posts))
+		copy(temp, components.Posts)
 		if rev {
 			slices.Reverse(temp)
 		}
-		templates.CompBlogData(temp, rev).Render(r.Context(), w)
+		components.CompBlogData(temp, rev).Render(r.Context(), w)
 	})
 	r.Get("/blog-update", func(w http.ResponseWriter, r *http.Request) {
-		templates.MDConvert()
+		components.MDConvert()
 	})
+	r.Get("/interviews", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Request to Interviews")
+		Interviews := components.Post{
+			Title:       "Interviews",
+			Description: "Jorge Luis Suarez - Interview Collection",
+			Content:     "",
+			RawTitle:    "Interviews",
+		}
+
+		components.Header(Interviews).Render(r.Context(), w)
+		components.NavBar().Render(r.Context(), w)
+		components.Interviews().Render(r.Context(), w)
+	})
+
 	r.Get("/blog/*", func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
 		log.Println(path)
-		// Example: /blog/123 -> ["", "blog", "123"]
 		parts := strings.Split(path, "/")
 		if len(parts) < 3 {
 			http.NotFound(w, r)
 			return
 		}
 		var id int = -99
-		for index, post := range templates.Posts {
+		for index, post := range components.Posts {
 			if strings.ToLower(post.Title) == parts[2] {
 				id = index
 			}
@@ -166,30 +183,60 @@ func main() {
 		if id == -99 {
 			redirectToURL(w, r, "https://pjalv.com")
 		} else {
-			Page := templates.Posts[id]
-			Page.Title = strings.ReplaceAll(templates.Posts[id].Title, "-", " ")
-			templates.Header(Page).Render(r.Context(), w)
-			templates.BlogPage(templates.Posts[id]).Render(r.Context(), w)
+			Page := components.Posts[id]
+			Page.Title = strings.ReplaceAll(components.Posts[id].Title, "-", " ")
+			components.Header(Page).Render(r.Context(), w)
+			components.BlogPage(components.Posts[id]).Render(r.Context(), w)
 		}
 	})
+
+	r.Get("/home", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Request to Home")
+		go sendDiscWebhook(r)
+		redirectToURL(w, r, "https://pjalv.com")
+	})
+
 	r.Get("/*", func(w http.ResponseWriter, r *http.Request) {
-		Landing := templates.Post{
-			Title:       "Blog",
-			Description: "",
-			Content:     "",
+		redirectToURL(w, r, "https://pjalv.com")
+	})
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		host := r.Host
+		// Check if the request is using www
+		if host == "www.pjalv.com" {
+			log.Println("GOT WWW REQ")
+			// Redirect to non-www
+			http.Redirect(w, r, "https://pjalv.com"+r.URL.String(), http.StatusMovedPermanently)
+			return
 		}
-		templates.Header(Landing).Render(r.Context(), w)
-		templates.NavBar().Render(r.Context(), w)
-		templates.NewestBlogPost(templates.Posts).Render(r.Context(), w)
-		templates.Landing().Render(r.Context(), w)
+		Landing := components.Post{
+			Title:       "PJalv",
+			Description: "Jorge Luis Suarez",
+			Content:     "",
+			RawTitle:    "Jorge Luis Suarez",
+		}
+		components.Header(Landing).Render(r.Context(), w)
+		components.NavBar().Render(r.Context(), w)
+		components.NewestBlogPost(components.Posts).Render(r.Context(), w)
+		components.Landing().Render(r.Context(), w)
 	})
 	// go commandSender(channelCommand)
 	// go statusChecker()
-	templates.MDConvert()
+	components.MDConvert()
+	components.InterviewsConvert()
 	args := os.Args
 	if args[1] == "true" {
 		setupServer(true, r)
 	} else {
 		setupServer(false, r)
+	}
+}
+func sendDiscWebhook(r *http.Request) {
+	webhookURL := "https://discord.com/api/webhooks/1288971178752479303/634SY6yuZkUayFdt-mBFK-HW-JU-ddvMAzAKXGCXz2rYbdrYxlIN0ewYlTiD6fjcpjhi" // Replace with your actual webhook URL
+	ip := r.RemoteAddr
+	message := `{"content": "Home page clicked! IP: ` + ip + `"}`
+	_, err := http.Post(webhookURL, "application/json", strings.NewReader(message))
+	if err != nil {
+		log.Println("Error sending Discord notification:", err)
 	}
 }

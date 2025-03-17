@@ -1,0 +1,533 @@
+package components
+
+import "strings"
+
+templ Header(post Post) {
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<!-- Open Graph Protocol tags -->
+		<meta property="og:title" content={ post.RawTitle }/>
+		<meta property="og:description" content={ post.Description }/>
+		<meta property="og:site_name" content="PJalv"/>
+		<meta property="og:type" content="article"/>
+		<meta property="og:image" content="https://pjalv.com/file/headshot_embed.jpg"/>
+		<meta name="twitter:card" content="summary"/>
+		<meta name="twitter:title" content={ post.RawTitle }/>
+		<meta name="twitter:description" content={ post.Description }/>
+		<meta name="twitter:image" content="https://pjalv.com/file/headshot_embed.jpg"/>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+		<script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "pgzrhkd2yv");
+    </script>
+		<script src="https://unpkg.com/htmx.org@1.8.5/dist/htmx.min.js"></script>
+		<script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+		<title>{ post.RawTitle + " | PJalv" }</title>
+		<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #c0caf5;
+        background-color: #1a1b26;
+    }
+    
+    @media (max-width: 600px) {
+        body { width: 100%; }
+    }
+    
+    /* Layout Components */
+    .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: #24283b;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+    }
+    
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 0 20px;
+        background: #24283b;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        flex-direction: row;
+    }
+    
+    /* Typography */
+    h1 { text-align: center; color: #7aa2f7; }
+    h2 { color: #bb9af7; }
+    h3 { color: #7dcfff; }
+    h4 { color: #4fd6be; margin-bottom: -7.72px; }
+    sup { margin-left: 0.35em; }
+    
+    /* Links */
+    a {
+        color: #7aa2f7;
+        text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    nav a { color: rgb(90, 217, 194); }
+    
+    /* Lists */
+    .container li, .landing li {
+        padding: 5px 0;
+        list-style-type: none;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+    }
+    nav li {
+        margin-right: 20px;
+    }
+    nav li:last-child {
+        margin-right: 0;
+    }
+    .post-content ul {
+        list-style-type: disc;
+    }
+    #blog-container ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    /* Blog Components */
+    .blog-post {
+        max-width: 100%;
+    }
+    .blog-post p {
+        line-height: 1.35;
+    }
+    .blog-post h1 {
+        font-size: 1.85em;
+    }
+    .blog-post a {
+        color: rgb(90, 217, 194);
+    }
+    p.blog-date {
+        color: #ff9e64;
+    }
+    
+    /* Images and Media */
+    .img-border {
+        display: flex;
+        width: 12em;
+        height: 12em;
+        border-radius: 50%;
+        margin: 10px;
+    }
+    .img-border img {
+        display: block;
+        aspect-ratio: 1;
+    }
+    .blog-post img, .blog-post iframe, .landing iframe {
+        max-width: 100%;
+        max-height: 30em;
+    }
+    video {
+        max-width: 95%;
+        display: block;
+        margin: auto;
+        max-height: 32em;
+    }
+    
+    /* Profile Section */
+    .profile-images {
+        display: flex;
+        justify-content: center;
+    }
+    .intro {
+        display: flex;
+        align-items: center;
+        margin: 20px auto;
+    }
+    .intro-text {
+        font-size: 1.1em;
+        line-height: 1.5em;
+    }
+    
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+    .modal-content {
+        margin: 5% auto;
+        display: block;
+        width: 100%;
+        max-width: 900px;
+    }
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 25px;
+        color: #fff;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .modal img {
+        display: flex;
+        justify-content: center;
+        margin-top: 10%;
+        width: 100%;
+    }
+    
+    /* Buttons */
+    button {
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .date-button {
+        display: flex;
+        justify-content: flex-end;
+        margin: -1.5em 0 14px;
+    }
+    .date-button button {
+        background-color: #ff9e64;
+        color: black;
+    }
+    .copy-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 0.9em;
+    }
+    .copy-button:hover {
+        background-color: #45a049;
+    }
+    
+    /* Code Blocks */
+    pre::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    pre::-webkit-scrollbar-thumb {
+        background: #3b4261;
+        border-radius: 8px;
+    }
+    pre::-webkit-scrollbar-thumb:hover {
+        background: #5e6687;
+    }
+    pre::-webkit-scrollbar-track {
+        background: #24283b;
+        border-radius: 8px;
+    }
+    p code, li code {
+        background: #1e1c1c;
+        border-radius: 3px;
+        color: #4fd6be;
+        font-size: 1.15em;
+    }
+    
+    /* Blog Post Meta */
+    .post-meta {
+        display: flex;
+        align-items: center;
+    }
+    .post-date {
+        margin-left: auto;
+        color: #bb9af7;
+        text-decoration: none;
+    }
+    .post-date:hover, .description:hover {
+        text-decoration: none;
+    }
+    .description {
+        margin-top: 5px;
+        font-size: 0.85em;
+        font-style: italic;
+        color: white;
+        text-decoration: none;
+    }
+    .blog-post figcaption {
+        font-size: 0.85em;
+        color: #bb9af7;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    /* Scrolling Text */
+    .scrolling-text-container {
+        max-width: 400px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .scrolling-text {
+        display: inline-block;
+        animation: scrollText 13s linear infinite;
+    }
+    .scrolling-text:hover {
+        animation-play-state: running;
+    }
+    .scrolling-text-container:hover .scrolling-text {
+        animation-play-state: paused;
+    }
+    @keyframes scrollText {
+        from { transform: translateX(100%); }
+        to { transform: translateX(-100%); }
+    }
+    </style>
+		<script src="https://pjalv.com/file/prism.js"></script>
+		<link href="https://pjalv.com/file/prism.css" rel="stylesheet"/><script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    });
+  </script>
+	</head>
+}
+
+templ NavBar() {
+	<nav class="navbar" align="center">
+		<ul style="justify-content: space-between; width: 100%;">
+			<li><a href="/" class="navbar-brand">Home</a></li>
+			<li><a href="/blog" class="navbar-brand">Blog</a></li>
+			<li style="margin-left: auto;"><a href="/contact" class="navbar-brand">Contact</a></li>
+		</ul>
+	</nav>
+}
+
+templ Contact() {
+	<div align="center" class="container">
+		<div class="landing">
+			<h2>Contact</h2>
+			<p>If you have any questions or would like to get in touch, feel free to reach out!</p>
+			<ul>
+				<li><a href="/jorge">LinkedIn Profile</a></li>
+				<li><a href="https://x.com/pjalv" target="_blank">X / Twitter: PJalv</a></li>
+				<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
+			</ul>
+		</div>
+	</div>
+}
+
+templ Landing() {
+	<body>
+		<div align="center" class="container">
+			<div class="landing">
+				<h1>Jorge Luis Suarez</h1>
+				<div class="profile-images">
+					<div class="img-border">
+						<img
+							class="headshot"
+							src="https://pjalv.com/file/headshot_crop.jpg"
+							alt="Jorge Luis Suarez"
+							style="border-radius:50%;"
+						/>
+					</div>
+					<div class="img-border">
+						<img src="https://pjalv.com/file/pfp.png" alt="PJalv" style="object-fit:contain;" title="My pfp is based off of the Shopify logo btw."/>
+					</div>
+				</div>
+				<div class="intro">
+					<div align="left" class="intro-text">
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp; I'm Jorge, a Computer Engineering graduate from Cal Poly Pomona with a passion for embedded systems and hardware-software integration. My expertise centers on developing robust embedded solutions using modern platforms like ESP32 and STM32 devices, where I've built everything from IoT applications to real-time control systems.
+						</p>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp; My passion lies in bridging the gap between hardware and software, demonstrated through my Senior Design Project (see below). I also enjoy taking on competitive challenges, like building an autonomous Chipotle-bot. Check out my <a href="/blog">blog</a>, where I share insights and document my journey in tech.
+						</p>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp; Currently, I'm exploring oppurtunities in various fields, includng IoT, aerospace, and automotive, while also exploring emerging technologies such as Zig for embedded development.
+						</p>
+					</div>
+				</div>
+				<h2>Personal Links</h2>
+				<ul>
+					<li><a href="/jorge" target="_blank">LinkedIn</a></li>
+					<li><a href="https://x.com/PJalv" target="_blank">Twitter</a></li>
+					<li><a href="https://github.com/pjalv" target="_blank">GitHub</a></li>
+					<li>Email: <a href="mailto:jorgeluiss_pjalv@proton.me">jorgeluiss_pjalv@proton.me</a></li>
+				</ul>
+				<h2>Senior Project: IoT Device Control System</h2>
+				<ul>
+					<li>by Jorge Luis Suarez and Dylan St. Laurent</li>
+				</ul>
+				<figure style="text-align: center; border-radius:3px;">
+					<iframe id="ref3" width="560" height="315" src="https://www.youtube.com/embed/jLNg5vOTuZE?si=4iD7FKRQQmM_6lCI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</figure>
+			</div>
+		</div>
+	</body>
+}
+
+templ CompBlogData(posts []Post, reverse bool) {
+	<div id="blog-data">
+		<div class="date-button">
+			if reverse ==true {
+				<button
+					id="button"
+					hx-trigger="click"
+					hx-post="/blog-data-rev"
+					hx-headers='{"reverse": "false"}'
+					hx-target="#blog-data"
+					class="toggle-date"
+				>
+					Date &uarr;
+				</button>
+			} else {
+				<button
+					id="button"
+					hx-trigger="click"
+					hx-post="/blog-data-rev"
+					hx-headers='{"reverse": "true"}'
+					hx-target="#blog-data"
+					class="toggle-date"
+				>
+					Date &darr;
+				</button>
+			}
+		</div>
+		for _, post := range posts {
+			<li>
+				<div class="blog-post-index">
+					<a href={ templ.URL("/blog/" + strings.ToLower(post.Title)) }>
+						<div class="post-meta">
+							{ post.RawTitle }
+							<span class="post-date">{ post.Date }</span>
+						</div>
+					</a>
+					<div class="description">&ensp;{ post.Description }</div>
+				</div>
+			</li>
+		}
+	</div>
+}
+
+templ BlogIndex(posts []Post) {
+	<body>
+		@NavBar()
+		<h1>Blog</h1>
+		<div class="container" id="blog-container">
+			<ul>
+				@CompBlogData(posts, true)
+			</ul>
+		</div>
+	</body>
+}
+
+templ BlogPage(post Post) {
+	<body>
+		@NavBar()
+		<div class="container">
+			<p class="blog-date">{ post.Date }</p>
+			<article class="blog-post">
+				<header class="post-header"></header>
+				<div class="post-content">
+					@templ.Raw(post.Content)
+				</div>
+			</article>
+		</div>
+		<div id="myModal" class="modal" onclick="closeModalOnClick(event)">
+			<span class="close" onclick="closeModal()">&times;</span>
+			<img id="modal-img" class="modal-content" src="" alt="Full-size image"/>
+		</div>
+		<script>
+    function openModal(event, src) {
+      event.preventDefault();
+      var modal = document.getElementById("myModal");
+      var modalImg = document.getElementById("modal-img");
+      modal.style.display = "block";
+      modalImg.src = src;
+      document.addEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+      document.removeEventListener('keydown', closeModalOnEscape);
+    }
+
+    function closeModalOnEscape(event) {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    }
+
+      function closeModalOnClick(event) {
+      if (event.target === document.getElementById("myModal")) {
+        closeModal();
+      }
+    }
+  </script>
+	</body>
+}
+
+templ NewestBlogPost(posts []Post) {
+	<div style="font-size: 1.2em;" class="newest-blog-post" align="center">
+		<a style="color:#bb9af7;" href={ templ.URL("/blog/" + strings.ToLower(posts[len(posts)-1].Title)) }>
+			{ "📰 Latest Post - "+ posts[len(posts)-1].RawTitle + " 📰" }
+		</a>
+		<div class="scrolling-text-container">
+			<div class="scrolling-text">
+				&ensp;{ posts[len(posts)-1].Description }
+			</div>
+		</div>
+	</div>
+}
+
+templ Interviews() {
+	<div class="min-h-screen bg-white dark:bg-gray-900">
+		<div class="container mx-auto px-4 py-8">
+			<h1 class="text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white">Interview Collection</h1>
+			<div class="space-y-8">
+				for _, interview := range InterviewsList {
+					<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 transition-all duration-300 hover:shadow-xl">
+						<h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">{ interview.RawTitle }</h2>
+						if interview.Description != "" {
+							<p class="text-gray-600 dark:text-gray-400 mb-4">{ interview.Description }</p>
+						}
+						<div class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+							<p>Recorded on: { interview.Date }</p>
+						</div>
+						<div class="mb-6">
+							<h3 class="text-lg font-medium mb-2 text-gray-800 dark:text-gray-200">Audio Recording</h3>
+							<audio controls class="w-full">
+								<source src={ interview.AudioFile } type="audio/mp4"/>
+								<source src={ interview.AudioFile } type="audio/ogg"/>
+								Your browser does not support the audio element.
+							</audio>
+						</div>
+						<details class="mt-4">
+							<summary class="text-lg font-medium cursor-pointer text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-300">
+								Show Transcription
+							</summary>
+							<div class="prose dark:prose-invert max-w-none mt-4 pl-4 border-l-2 border-gray-200 dark:border-gray-700">
+								<p class="whitespace-pre-line text-gray-700 dark:text-gray-300">
+									@templ.Raw(interview.Transcription)
+								</p>
+							</div>
+						</details>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+}
