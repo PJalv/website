@@ -50,7 +50,7 @@ Installing Arch can be a bit of a hassle from scratch but thankfully I came acro
 After finding a USB drive (those are always lost when you need them), I flashed the ISO, and started the process. I felt the rush that I had as a kid on Christmas since I was trying something new. At this point, I had a very strong feeling that I would really enjoy this for a long time. Just like that, we had installed Linux—Arch Linux, by the way.
 
 <figure>
-  <a id="ref3" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arch.png')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arch.png" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arch.png">
   </a>
   <figcaption>Arch Comes Alive!</figcaption>
@@ -64,7 +64,7 @@ Once I installed the desktop environment, I was in! The first thing I wanted to 
 Throughout this package process, I also realized that since this was a minimal install, as expected, some base features were not installed. The first one I noticed was the SSH command, so I had to go and install OpenSSH and other packages that I came across that I needed.And after that, I was able to install all my packages that I wanted at the time and sort of simulate my experience on Windows.
 
 <figure style="text-align: center;">
-      <a id="ref5"class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/kde.png')">
+      <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/kde.png" target="_blank">
         <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/kde.png" alt="Chipotle announcement">
       </a>
   <figcaption>My New Linux Desktop</figcaption>
@@ -85,7 +85,7 @@ On the note of GitHub repos, another thing about these customization and the var
 As you can imagine, having the urge to tweak something in your setup is very common in the Linux world since you're able to do so unlike in other OS's. One of the most major changes I've done is switch to a tiling window manager and desktop environment as a whole known as Hyprland.
 
 <figure style="text-align: center;">
-      <a id="ref6" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/hyprland.png')">
+      <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/hyprland.png" target="_blank">
         <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/hyprland.png" alt="hyprland">
       </a>
   <figcaption>Hyprland in Action<sup><a href="#fn6">[6]</a></sup></figcaption>
@@ -102,7 +102,7 @@ It is all easy to test compared to Windows. All you have to do is press two butt
 As I mentioned, I have switched to Neovim, and using Neovim has been an extremely interesting experience. But before that, I want to talk about how I wanted to adapt a very popular peripheral of mine into the new Linux world, my MacroPad.
 
 <figure style="text-align: center;">
-  <a id="ref7" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad.jpg')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad.jpg" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad.jpg" alt="MacroPad">
   </a>
   <figcaption>My MacroPad, consisting of an Arduino Pro Micro, with a custom PCB<sup><a href="#fn7">[7]</a></sup></figcaption>
@@ -113,7 +113,7 @@ This MacroPad allows me to control my music with keys for playback and rotary en
 Well, VoiceMeeter is not available in Linux, but I don't need it. All I ever wanted VoiceMeeter for was separate volume levels for applications. So, I had to edit the code for my Arduino, which ran the MacroPad, and add another mode to account for Linux so I could have both Windows and Linux modes. 
 
 <figure style="text-align: center;">
-  <a id="ref8" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_code.png')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_code.png" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_code.png" alt="Arduino Code">
   </a>
   <figcaption>Editing Arduino code for Linux compatibility</figcaption>
@@ -122,7 +122,7 @@ Well, VoiceMeeter is not available in Linux, but I don't need it. All I ever wan
 In editing this feature, I also learned a lot of things regarding command line interfaces for audio and the PulseAudio protocol and the ways to control it, as well as bash and a lot of things like that. Instead of VoiceMeeter, I now have a simple Go binary that I created that reads in the command sent through UART from the MacroPad and executes it.
 
 <figure style="text-align: center;">
-  <a id="ref9" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_go.png')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_go.png" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/macropad_go.png" alt="Go Binary">
   </a>
   <figcaption>Go binary for handling MacroPad commands</figcaption>
@@ -131,7 +131,7 @@ In editing this feature, I also learned a lot of things regarding command line i
 You might imagine that coming from Windows, you had to install the Arduino IDE to get working, but no. Arduino provides a CLI package that you can install that will compile and flash your code onto an Arduino. So again, simplifying your development process, everything is in the terminal. You can go from Neovim to the CLI interface for flashing; everything seems extremely fast and simple to use.
 
 <figure style="text-align: center;">
-  <a id="ref10" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arduino_cli.png')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arduino_cli.png" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/arduino_cli.png" alt="Arduino CLI">
   </a>
   <figcaption>Using Arduino CLI for flashing code</figcaption>
@@ -144,7 +144,7 @@ No more IDE. 🤞
 Okay, now we can get into how I set up my Neovim currently and how it feels.
 
 <figure style="text-align: center;">
-  <a id="ref11" class="postImg" href="#" onclick="openModal(event, 'https://pjalv.com/file/05_06_21_2024_LinuxSwitch/neovim_lsp.png')">
+  <a id="ref1" class="postImg" href="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/neovim_lsp.png" target="_blank">
     <img src="https://pjalv.com/file/05_06_21_2024_LinuxSwitch/neovim_lsp.png" alt="Neovim Setup">
   </a>
   <figcaption>My Neovim setup testing with SystemVerilog LSP, because why not?</figcaption>
